@@ -1,0 +1,19 @@
+<!-- 声明一个权限  -->
+    <permission android:protectionLevel="normal"
+        android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <permission android:protectionLevel="normal"
+        android:name="android.permission.INTERNET"/>
+    <permission android:protectionLevel="normal"
+        android:name="com.android.launcher.permission.READ_SETTINGS"/>
+    <permission android:protectionLevel="normal"
+        android:name="android.permission.WAKE_LOCK"/>
+    <permission android:protectionLevel="normal"
+        android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <permission android:protectionLevel="normal"
+        android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <permission android:protectionLevel="normal"
+        android:name="android.permission.GET_TASKS"/>
+    <permission android:protectionLevel="normal"
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <permission android:protectionLevel="normal"
+        android:name="android.permission.WRITE_SETTINGS"/>

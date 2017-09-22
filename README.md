@@ -1,0 +1,2 @@
+# Forestrymonitoring
+使用树莓派等职能硬件监测森林，然后将监测结果展示到手机APP

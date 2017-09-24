@@ -2,5 +2,7 @@
     <string name="app_name">林业监测系统</string>
     <string name="SHA1">87:F9:24:79:90:BE:F9:7A:4B:34:C4:89:89:A2:D0:3E:D7:30:2E:0C</string>
     <string name="packageName">com.example.forestrymonitoring</string>
+    <string name="exit">退出</string>
+    <string name="about">关于</string>
 
 </resources>

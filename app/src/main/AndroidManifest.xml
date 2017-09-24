@@ -37,7 +37,7 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"></service>
+            android:process=":remote" />
 
         <activity
             android:name=".MainActivity"
@@ -56,12 +56,15 @@
 
         <meta-data
             android:name="api_key"
-            android:value="fywLY8TDwr7VG58fl9wtxiWy6ZNeYL4U" />
+            android:value="OVHxrjri7xUFrAFpuZWnC2NrF5tUUtbW" />
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="fywLY8TDwr7VG58fl9wtxiWy6ZNeYL4U" />
+            android:value="OVHxrjri7xUFrAFpuZWnC2NrF5tUUtbW" />
 
-        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".MapActivity" />
+        <activity android:name=".AboutActivity"
+            android:label="@string/about"
+            android:theme="@style/Theme.AppCompat.Dialog" />
     </application>
 
 </manifest>

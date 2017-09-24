@@ -29,11 +29,12 @@ public class MainActivity extends AppCompatActivity {
         //查看监测点按钮点击事件
         viewButton.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View view){
-                setContentView(R.layout.activity_main_map);
+                //setContentView(R.layout.activity_main_map);
                 //生成一个Intent对象
-                /*Intent intent = new Intent();
+                Intent intent = new Intent();
+                //intent.putExtra("Element","元素值");//传递参数
                 intent.setClass(MainActivity.this,MapActivity.class);
-                MainActivity.this.startActivity(intent);*/
+                MainActivity.this.startActivity(intent);
             }
         });
         //退出按钮点击事件
@@ -58,31 +59,42 @@ public class MainActivity extends AppCompatActivity {
         //菜单按钮回调函数
         if (item.getItemId() == 1)
             finish();
+        else if (item.getItemId() == 2){
+            //生成一个Intent对象
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,AboutActivity.class);
+            MainActivity.this.startActivity(intent);//error
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onStart() {
+        System.out.print("onStart");
         super.onStart();
     }
 
     @Override
     protected void onDestroy() {
+        System.out.print("onDestroy");
         super.onDestroy();
     }
 
     @Override
     protected void onResume() {
+        System.out.print("onResume");
         super.onResume();
     }
 
     @Override
     protected void onPause() {
+        System.out.print("onPause");
         super.onPause();
     }
 
     @Override
     protected void onStop() {
+        System.out.print("onStop");
         super.onStop();
     }
 }

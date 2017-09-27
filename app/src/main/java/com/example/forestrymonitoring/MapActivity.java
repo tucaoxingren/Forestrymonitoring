@@ -4,14 +4,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.model.LatLng;
 
 public class MapActivity extends AppCompatActivity {
 
     private MapView mMapView = null;
-    private BaiduMap baiduMap = null;
+    private BaiduMap mBaiduMap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +48,10 @@ public class MapActivity extends AppCompatActivity {
         // 不显示地图缩放控件（按钮控制栏）
 //        mapView.showZoomControls(false);
         // 获取百度地图对象
-        baiduMap = mMapView.getMap();//error baiduMap=bull mapView=null
-        baiduMap.setMyLocationEnabled(true);
+        mBaiduMap = mMapView.getMap();//error baiduMap=bull mapView=null
+        mBaiduMap.setMyLocationEnabled(true);
         // 设置为一般地图
-        baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
 
         //  卫星地图
 //        baiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
@@ -57,9 +59,20 @@ public class MapActivity extends AppCompatActivity {
         //空白地图, 基础地图瓦片将不会被渲染。在地图类型中设置为NONE，将不会使用流量下载基础地图瓦片图层。使用场景：与瓦片图层一起使用，节省流量，提升自定义瓦片图下载速度。
 //        baiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
 
+        //设定中心点坐标 西南林业大学坐标
+        LatLng cenpt =  new LatLng(25.06056,102.75911);
+        //定义地图状态
+        MapStatus mMapStatus = new MapStatus.Builder()
+                .target(cenpt)
+                .zoom(12)
+                .build();
+        //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
+        MapStatusUpdate msu = MapStatusUpdateFactory.newMapStatus(mMapStatus);
         // 设置初始大图大小500米MapStatusUpdateFactory
-        MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(15.0f);
-        baiduMap.setMapStatus(msu);
+        MapStatusUpdate msu2 = MapStatusUpdateFactory.zoomTo(15.0f);
+        //msu = MapStatusUpdateFactory.zoomTo(15.0f);
+        mBaiduMap.setMapStatus(msu);
+        mBaiduMap.setMapStatus(msu2);
     }
 
     @Override

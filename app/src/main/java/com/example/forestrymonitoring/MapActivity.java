@@ -1,7 +1,10 @@
 package com.example.forestrymonitoring;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatus;
@@ -9,6 +12,7 @@ import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.model.LatLng;
+import com.example.forestrymonitoring.Offline.OfflineDemo;
 
 public class MapActivity extends AppCompatActivity {
 
@@ -19,7 +23,32 @@ public class MapActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_map);
-        init();
+        init();//初始化
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //菜单组ID，菜单ID，排序，菜单名字
+        menu.add(0,1,1,R.string.offline);
+        menu.add(0,2,2,R.string.about);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //菜单按钮回调函数
+        if (item.getItemId() == 1){
+            //生成一个Intent对象
+            Intent intent = new Intent();
+            intent.setClass(MapActivity.this,OfflineDemo.class);
+            MapActivity.this.startActivity(intent);
+        }
+        else if (item.getItemId() == 2){
+            //生成一个Intent对象
+            Intent intent = new Intent();
+            intent.setClass(MapActivity.this,AboutActivity.class);
+            MapActivity.this.startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
     /**
      * 初始化
@@ -30,15 +59,13 @@ public class MapActivity extends AppCompatActivity {
         // 初始化地图
         this.initMap();
     }
-
     /**
      * 初始化控件
      */
     private void initControls(){
         // 获取地图视图
-        mMapView = (MapView) findViewById(R.id.bmapView);//error mapView=null
+        mMapView = (MapView) findViewById(R.id.bmapView);
     }
-
     /**
      * 初始化地图
      */
@@ -48,7 +75,7 @@ public class MapActivity extends AppCompatActivity {
         // 不显示地图缩放控件（按钮控制栏）
 //        mapView.showZoomControls(false);
         // 获取百度地图对象
-        mBaiduMap = mMapView.getMap();//error baiduMap=bull mapView=null
+        mBaiduMap = mMapView.getMap();
         mBaiduMap.setMyLocationEnabled(true);
         // 设置为一般地图
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);

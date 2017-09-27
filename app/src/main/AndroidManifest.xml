@@ -39,10 +39,9 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" >
+            android:process=":remote">
             <intent-filter>
-                <action android:name="com.baidu.location.service_v2.2" >
-                </action>
+                <action android:name="com.baidu.location.service_v2.2"></action>
             </intent-filter>
         </service>
 
@@ -51,6 +50,7 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -63,9 +63,11 @@
             android:value="OVHxrjri7xUFrAFpuZWnC2NrF5tUUtbW" />
 
         <activity android:name=".MapActivity" />
-        <activity android:name=".AboutActivity"
+        <activity
+            android:name=".AboutActivity"
             android:label="@string/about"
             android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity android:name=".Offline.OfflineDemo"></activity>
     </application>
 
 </manifest>

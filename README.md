@@ -19,4 +19,4 @@
 
 已下载离线地图展示
 
-![已下载离线地图展示](https://github.com/tucaoxingren/Forestrymonitoring/raw/master/device-2017-09-27-210838.png)
+![已下载离线地图展示](https://github.com/tucaoxingren/Forestrymonitoring/raw/master/Screenshot/device-2017-09-27-210838.png)

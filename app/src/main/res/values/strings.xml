@@ -4,6 +4,7 @@
     <string name="packageName">com.example.forestrymonitoring</string>
     <string name="exit">退出</string>
     <string name="about">关于</string>
-    <string name="aboutText">林业监测系统V1.0\n作    者：张常浩\n指导教师：秦明明</string>
-
+    <string name="aboutText">\n\n作    者：张常浩\n\n指导教师：秦明明</string>
+    <string name="startlocation">startlocation</string>
+    <string name="stoplocation">stoplocation</string>
 </resources>

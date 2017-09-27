@@ -8,19 +8,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.baidu.mapapi.map.MapView;
+//import com.baidu.mapapi.map.MapView;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button viewButton = null;
     private Button exitButton = null;
-    private MapView mMapView = null;
+   // private MapView mMapView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
-        mMapView = (MapView) findViewById(R.id.bmapView);
+//        mMapView = (MapView) findViewById(R.id.bmapView);
 
         //获取按键
         viewButton = (Button)findViewById(R.id.button);

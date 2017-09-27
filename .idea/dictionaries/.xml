@@ -2,7 +2,15 @@
   <dictionary name="吐槽星人">
     <words>
       <w>baidu</w>
+      <w>forestrymonitoring</w>
       <w>lbsapi</w>
+      <w>listenner</w>
+      <w>locationdescribe</w>
+      <w>poilist</w>
+      <w>setis</w>
+      <w>setm</w>
+      <w>startlocation</w>
+      <w>stoplocation</w>
     </words>
   </dictionary>
 </component>

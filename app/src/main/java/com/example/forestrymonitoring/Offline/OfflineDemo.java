@@ -161,6 +161,7 @@ public class OfflineDemo extends Activity implements MKOfflineMapListener {
      * 开始下载
      *
      * @param view
+     *
      */
     public void start(View view) {
         int cityid = Integer.parseInt(cidView.getText().toString());

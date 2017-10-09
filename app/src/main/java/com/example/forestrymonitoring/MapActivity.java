@@ -5,25 +5,45 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.model.LatLng;
 import com.example.forestrymonitoring.Offline.OfflineDemo;
+import com.example.forestrymonitoring.monitoringPointDisplay.ReceiveInfo;
 
 public class MapActivity extends AppCompatActivity {
 
     private MapView mMapView = null;
     private BaiduMap mBaiduMap = null;
+    private Button refresh = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_map);
         init();//初始化
+        refresh = (Button) findViewById(R.id.refresh);
+        refresh.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //刷新并展示坐标
+                ReceiveInfo receiveInfo = new ReceiveInfo();
+                receiveInfo.PackageMonitoringPoint(mBaiduMap);
+            }
+        });
+        mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                return false;
+            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

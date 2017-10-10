@@ -7,8 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -23,24 +25,48 @@ public class MapActivity extends AppCompatActivity {
     private MapView mMapView = null;
     private BaiduMap mBaiduMap = null;
     private Button refresh = null;
+    private TextView textView = null;
+    private LatLng latLng = null;
+    private ReceiveInfo receiveInfo = null;
+    private int[] iconId = new int[7];//图标Id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_map);
         init();//初始化
-        refresh = (Button) findViewById(R.id.refresh);
+
+        //刷新按钮监听事件
         refresh.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //刷新并展示坐标
-                ReceiveInfo receiveInfo = new ReceiveInfo();
-                receiveInfo.PackageMonitoringPoint(mBaiduMap);
+                receiveInfo = new ReceiveInfo();
+                receiveInfo.pullInfo(mBaiduMap,iconId);
             }
         });
+        // Marker(地图标记)点击监听事件
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                // 设置监测点信息文本控件为 可见
+                textView.setVisibility(View.VISIBLE);
+                latLng = marker.getPosition();
+                String str = receiveInfo.returnMounInfo(latLng,textView);
+                textView.setText("  监测点信息:"+str);
+                return false;
+            }
+        });
+        // 点击地图任何一点 不包括 标记点的点击监听
+        mBaiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                //设置监测点信息文本控件为 不可见
+                textView.setVisibility(View.GONE);
+            }
+
+            @Override
+            public boolean onMapPoiClick(MapPoi mapPoi) {
                 return false;
             }
         });
@@ -78,6 +104,21 @@ public class MapActivity extends AppCompatActivity {
         this.initControls();
         // 初始化地图
         this.initMap();
+        //初始化图标id
+        this.initIconId();
+    }
+
+    /**
+     *  初始化图标id
+     */
+    private void initIconId(){
+        iconId[0] = R.drawable.icon_marka;
+        iconId[1] = R.drawable.icon_markb;
+        iconId[2] = R.drawable.icon_markc;
+        iconId[3] = R.drawable.icon_markd;
+        iconId[4] = R.drawable.icon_marke;
+        iconId[5] = R.drawable.icon_markf;
+        iconId[6] = R.drawable.icon_gcoding;
     }
     /**
      * 初始化控件
@@ -85,6 +126,12 @@ public class MapActivity extends AppCompatActivity {
     private void initControls(){
         // 获取地图视图
         mMapView = (MapView) findViewById(R.id.bmapView);
+        // 获取刷新按钮
+        refresh = (Button) findViewById(R.id.refresh);
+        // 获取监测点信息文本
+        textView = (TextView) findViewById(R.id.markInfo);
+        textView.setVisibility(View.GONE);
+        //textView.setBackgroundResource(R.color.hui);
     }
     /**
      * 初始化地图

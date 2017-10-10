@@ -6,5 +6,6 @@
     <string name="about">关于</string>
     <string name="aboutText">林业监测系统V1.0\n作    者：张常浩\n指导教师：秦明明</string>
     <string name="offline">下载离线地图</string>
+    <string name="mounInfo">监测点信息</string>
 
 </resources>

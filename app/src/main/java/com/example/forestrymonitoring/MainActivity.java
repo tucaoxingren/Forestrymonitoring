@@ -1,6 +1,7 @@
 package com.example.forestrymonitoring;
 
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private Button viewButton = null;
     private Button exitButton = null;
     private MapView mMapView = null;
+    private Button blueTooth = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         //获取按键
         viewButton = (Button)findViewById(R.id.button);
         exitButton = (Button)findViewById(R.id.button2);
+        blueTooth = (Button)findViewById(R.id.button4);
 
         //查看监测点按钮点击事件
         viewButton.setOnClickListener(new Button.OnClickListener(){
@@ -41,6 +44,14 @@ public class MainActivity extends AppCompatActivity {
         exitButton.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View view){
                 MainActivity.super.finish();
+            }
+        });
+        // 蓝牙配对按钮点击事件
+        blueTooth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 跳转到蓝牙设置界面
+                startActivity(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS));
             }
         });
     }

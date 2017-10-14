@@ -4,8 +4,10 @@
     <string name="packageName">com.example.forestrymonitoring</string>
     <string name="exit">退出</string>
     <string name="about">关于</string>
+    <string name="bluetooth">蓝牙信息</string>
     <string name="aboutText">林业监测系统V1.0\n作    者：张常浩\n指导教师：秦明明</string>
     <string name="offline">下载离线地图</string>
     <string name="mounInfo">监测点信息</string>
+    <string name="homeText">选择查看or退出\n首次使用前请在\n手机蓝牙设置中\n与树莓派配对</string>
 
 </resources>

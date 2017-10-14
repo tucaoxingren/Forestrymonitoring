@@ -1,8 +1,6 @@
 package com.example.forestrymonitoring.monitoringPointDisplay;
 
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableContainer;
+import android.bluetooth.BluetoothDevice;
 import android.widget.TextView;
 
 import com.baidu.mapapi.map.BaiduMap;
@@ -11,8 +9,11 @@ import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.example.forestrymonitoring.R;
+import com.example.forestrymonitoring.bluetoothCommunication.BluetoothClient;
+import com.example.forestrymonitoring.bluetoothCommunication.BluetoothManager;
+import com.example.forestrymonitoring.bluetoothCommunication.BluetoothServer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 /**
  * Created by 吐槽星人 on 2017/10/8 0008.
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 public class ReceiveInfo {
 
     private ArrayList<MonitoringPoint> monArray = new ArrayList<>();
-    public static final String ICON_PATH = "./src/main/res/raw/";
+    private static final String ICON_PATH = "./src/main/res/raw/";
 
     /**
      *  通过蓝牙接收监测点信息
@@ -35,11 +36,20 @@ public class ReceiveInfo {
 
     /**
      *  主线程最先调用此方法
-     * @param mBaiduMap
+     * @param mBaiduMap 百度地图视图
      */
-    public void pullInfo(BaiduMap mBaiduMap,int[] iconId){
+    public void pullInfo(BaiduMap mBaiduMap,int[] iconId) throws IOException {
+        String deviceMac = "38:A4:ED:3C:FC:9C";//  MI5
         // 从监听到的蓝牙获取信息
-        //code
+        // 启动服务端
+        BluetoothServer bluetoothServer = new BluetoothServer();
+        bluetoothServer.openServe();
+        // 启动监听
+        BluetoothDevice bluetoothDevice;
+        bluetoothDevice = BluetoothManager.getDevice(deviceMac);
+        BluetoothClient bluetoothClient = new BluetoothClient(bluetoothDevice);
+        bluetoothClient.connetServer();
+
 
         //将受到的信息封装
         PackageMonitoringPoint();
@@ -62,6 +72,10 @@ public class ReceiveInfo {
 
     }
 
+    /**
+     * 封装监测点信息在一个list中
+     * @return ArrayList<MonitoringPoint> 监测点
+     */
     private ArrayList<MonitoringPoint> PackageMonitoringPoint(String info){
 
         return monArray;
@@ -126,13 +140,13 @@ public class ReceiveInfo {
         //左上右下
         //textView.setCompoundDrawables(null,null, drawable,null);
         //                           纬度                        经度
-        return name+"\n  纬度 : "+latitude+"\n  经度 : "+longitude+"\n  温度 : "+temperature+"        湿度 : "+humidity;
+        return name+"\n  纬度 : "+latitude+"\n  经度 : "+longitude+"\n  度 : "+temperature+"        湿度 : "+humidity;
     }
 
     /**
      * 遍历monArray找出对应坐标监测点信息
-     * @param latLng
-     * @return MonitoringPoint
+     * @param latLng 坐标值
+     * @return MonitoringPoint  对应坐标的信息
      */
     private MonitoringPoint findMonPoInfo(LatLng latLng){
         // 遍历monArray找出对应坐标监测点信息

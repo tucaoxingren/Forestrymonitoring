@@ -18,6 +18,7 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.model.LatLng;
 import com.example.forestrymonitoring.Offline.OfflineDemo;
+import com.example.forestrymonitoring.bluetoothCommunication.BluetoothManager;
 import com.example.forestrymonitoring.monitoringPointDisplay.ReceiveInfo;
 
 public class MapActivity extends AppCompatActivity {
@@ -40,7 +41,11 @@ public class MapActivity extends AppCompatActivity {
         refresh.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //刷新并展示坐标
+                // 检测蓝牙开启状态
+                if (!BluetoothManager.isBluetoothEnabled()){// 未开启运行开启代码
+                    BluetoothManager.turnOnBluetooth(MapActivity.this);
+                }
+                // 刷新并展示坐标
                 receiveInfo = new ReceiveInfo();
                 receiveInfo.pullInfo(mBaiduMap,iconId);
             }
@@ -76,6 +81,7 @@ public class MapActivity extends AppCompatActivity {
         //菜单组ID，菜单ID，排序，菜单名字
         menu.add(0,1,1,R.string.offline);
         menu.add(0,2,2,R.string.about);
+        menu.add(0,3,3,R.string.bluetooth);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -92,6 +98,12 @@ public class MapActivity extends AppCompatActivity {
             //生成一个Intent对象
             Intent intent = new Intent();
             intent.setClass(MapActivity.this,AboutActivity.class);
+            MapActivity.this.startActivity(intent);
+        }
+        else if (item.getItemId() == 3){
+            //生成一个Intent对象
+            Intent intent = new Intent();
+            intent.setClass(MapActivity.this,BluetoothActivity.class);
             MapActivity.this.startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

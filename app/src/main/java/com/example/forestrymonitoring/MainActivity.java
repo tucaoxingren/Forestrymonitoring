@@ -2,12 +2,17 @@ package com.example.forestrymonitoring;
 
 import android.content.Intent;
 import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.baidu.mapapi.map.MapView;
 
@@ -58,25 +63,58 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //菜单组ID，菜单ID，排序，菜单名字
-        menu.add(0,1,1,R.string.exit);
-        menu.add(0,2,2,R.string.about);
-
-        return super.onCreateOptionsMenu(menu);
+        // 使用menu布局文件构建menu
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //菜单按钮回调函数
-        if (item.getItemId() == 1)
-            finish();
-        else if (item.getItemId() == 2){
+        int id = item.getItemId();
+        if (id == R.id.menu_about) {// 关于
+            displayAboutDialog();
+            return true;
+        } else if(id == R.id.menu_bluetooth){//蓝牙信息
             //生成一个Intent对象
             Intent intent = new Intent();
-            intent.setClass(MainActivity.this,AboutActivity.class);
-            MainActivity.this.startActivity(intent);//error
+            intent.setClass(MainActivity.this,BluetoothActivity.class);
+            MainActivity.this.startActivity(intent);
+            return true;
+        }
+        else if(id == R.id.menu_bluetoothTest){//蓝牙测试
+            //生成一个Intent对象
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,BlueTestActivity.class);
+            MainActivity.this.startActivity(intent);
+            return true;
+        }
+        else if(id == R.id.menu_exit){//退出
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    // 绘制关于界面Dialog
+    private void displayAboutDialog() {
+        final int paddingSizeDp = 5;
+        final float scale = getResources().getDisplayMetrics().density;
+        final int dpAsPixels = (int) (paddingSizeDp * scale + 0.5f);
+
+        final TextView textView = new TextView(this);
+        final SpannableString text = new SpannableString(getString(R.string.aboutText));
+
+        textView.setText(text);
+        textView.setAutoLinkMask(RESULT_OK);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+        textView.setPadding(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels);
+
+        Linkify.addLinks(text, Linkify.ALL);
+        new AlertDialog.Builder(this)//AlertDialog
+                .setTitle(R.string.menu_about)
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.ok, null)
+                .setView(textView)
+                .show();
     }
 
     @Override

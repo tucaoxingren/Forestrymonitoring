@@ -3,17 +3,19 @@ package com.example.forestrymonitoring.bluetoothCommunication;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.util.Log;
+
+import com.example.forestrymonitoring.common.ChatConstant;
 
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * Created by 吐槽星人 on 2017/10/14 0014.
+ * 创建服务端线程
  */
 
 public class AcceptThread extends Thread {
     private final BluetoothServerSocket mmServerSocket;
-    private String UUIDStr = "5d0b9e95-d5fe-41d2-80af-375b45d2159f";
     private BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
     public AcceptThread() {
@@ -22,13 +24,14 @@ public class AcceptThread extends Thread {
         BluetoothServerSocket tmp = null;
         try {
             // MY_UUID is the app's UUID string, also used by the client code
-            tmp = mBluetoothAdapter.listenUsingRfcommWithServiceRecord("ForestryMon", UUID.fromString(UUIDStr));
+            tmp = mBluetoothAdapter.listenUsingRfcommWithServiceRecord("ForestryMon", ChatConstant.UUID_SECURE);
         } catch (IOException e) { }
         mmServerSocket = tmp;
     }
 
+    @Override
     public void run() {
-        BluetoothSocket socket = null;
+        BluetoothSocket socket;
         // Keep listening until exception occurs or a socket is returned
         while (true) {
             try {
@@ -54,6 +57,8 @@ public class AcceptThread extends Thread {
     public void cancel() {
         try {
             mmServerSocket.close();
-        } catch (IOException e) { }
+        } catch (IOException e) {
+            // Log.e();
+        }
     }
 }

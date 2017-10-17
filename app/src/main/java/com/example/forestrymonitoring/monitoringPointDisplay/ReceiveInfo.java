@@ -38,9 +38,10 @@ public class ReceiveInfo {
      *  主线程最先调用此方法
      * @param mBaiduMap 百度地图视图
      */
-    public void pullInfo(BaiduMap mBaiduMap,int[] iconId) throws IOException {
+    public void pullInfo(BaiduMap mBaiduMap,int[] iconId) {//throws IOException
         String deviceMac = "38:A4:ED:3C:FC:9C";//  MI5
         // 从监听到的蓝牙获取信息
+        /*
         // 启动服务端
         BluetoothServer bluetoothServer = new BluetoothServer();
         bluetoothServer.openServe();
@@ -49,6 +50,7 @@ public class ReceiveInfo {
         bluetoothDevice = BluetoothManager.getDevice(deviceMac);
         BluetoothClient bluetoothClient = new BluetoothClient(bluetoothDevice);
         bluetoothClient.connetServer();
+        */
 
 
         //将受到的信息封装
@@ -62,9 +64,9 @@ public class ReceiveInfo {
      * @return ArrayList<MonitoringPoint>
      */
     private void PackageMonitoringPoint(){
-        MonitoringPoint monitoringPoint1 = new MonitoringPoint(25.04056,102.73911,26.5,75,ICON_PATH+"a1.png","1号监测点");
-        MonitoringPoint monitoringPoint2 = new MonitoringPoint(25.08056,102.77911,25.4,94,ICON_PATH+"a2.png","2号监测点");
-        MonitoringPoint monitoringPoint3 = new MonitoringPoint(25.09056,102.79911,27.1,63,ICON_PATH+"a3.png","3号监测点");
+        MonitoringPoint monitoringPoint1 = new MonitoringPoint(25.04056f,102.73911f,26.5f,75f,ICON_PATH+"a1.png","1号监测点");
+        MonitoringPoint monitoringPoint2 = new MonitoringPoint(25.08056f,102.77911f,25.4f,94f,ICON_PATH+"a2.png","2号监测点");
+        MonitoringPoint monitoringPoint3 = new MonitoringPoint(25.09056f,102.79911f,27.1f,63f,ICON_PATH+"a3.png","3号监测点");
 
         monArray.add(monitoringPoint1);
         monArray.add(monitoringPoint2);

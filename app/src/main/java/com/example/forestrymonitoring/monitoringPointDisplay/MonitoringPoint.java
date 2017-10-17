@@ -10,17 +10,17 @@ import com.baidu.mapapi.model.LatLng;
 
 public class MonitoringPoint {
 
-    private double longitude;//经度
-    private double latitude;//纬度
-    private double temperature;//温度
-    private double humidity;//湿度
+    private float longitude;//经度
+    private float latitude;//纬度
+    private float temperature;//温度
+    private float humidity;//湿度
     private String img = null;//监测点图片
     private String name = null;//监测点名字或标号
 
     public MonitoringPoint(){
 
     }
-    public MonitoringPoint(double latitude,double longitude,double temperature,double humidity,String img,String name){
+    public MonitoringPoint(float latitude,float longitude,float temperature,float humidity,String img,String name){
         this.longitude = longitude;
         this.latitude = latitude;
         this.temperature = temperature;
@@ -36,35 +36,35 @@ public class MonitoringPoint {
     public void setName(String name) {
         this.name = name;
     }
-    public double getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
-    public double getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 
-    public double getTemperature() {
+    public float getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(double temperature) {
+    public void setTemperature(float temperature) {
         this.temperature = temperature;
     }
 
-    public double getHumidity() {
+    public float getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(double humidity) {
+    public void setHumidity(float humidity) {
         this.humidity = humidity;
     }
 

@@ -30,7 +30,6 @@
     <!-- 修改蓝牙的设置 -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-
     <application
         android:name=".MApplication"
         android:allowBackup="true"
@@ -68,12 +67,9 @@
             android:value="OVHxrjri7xUFrAFpuZWnC2NrF5tUUtbW" />
 
         <activity android:name=".MapActivity" />
-        <activity
-            android:name=".AboutActivity"
-            android:label="@string/about"
-            android:theme="@style/Theme.AppCompat.Dialog" />
         <activity android:name=".Offline.OfflineDemo" />
-        <activity android:name=".BluetoothActivity"></activity>
+        <activity android:name=".BluetoothActivity" />
+        <activity android:name=".BlueTestActivity"></activity>
     </application>
 
 </manifest>

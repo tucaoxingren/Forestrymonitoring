@@ -10,6 +10,14 @@
     <string name="bluetooth">蓝牙信息</string>
     <string name="menu_bluetoothTest">蓝牙测试</string>
     <string name="bluetoothTest">蓝牙测试</string>
+    <string name="menu_main">监测界面</string>
+    <string name="menu_home">首页</string>
+    <string name="device_online">在线</string>
+    <string name="device_offline">离线</string>
+    <string name="pair_group_name">已配对蓝牙列表</string>
+    <string name="unpair_group_name">未配对蓝牙列表</string>
+    <string name="bluetoothActivity_name">蓝牙信息</string>
+    <string name="blueTestActivity_name">蓝牙传输测试</string>
     <string name="aboutText">\n
         项目简介：基于Android Classic Bluetooth的蓝牙智能硬件展示软件，支持一对一实时展示林业监测点位置信息。\n
         项目地址：https://github.com/tucaoxingren/Forestrymonitoring\n

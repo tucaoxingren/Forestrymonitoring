@@ -36,4 +36,11 @@ public class ChatConstant {
     public static final int MESSAGE_WRITE = 3;
     public static final int MESSAGE_DEVICE_NAME = 4;
     public static final int MESSAGE_TOAST = 5;
+
+    /* MAC*/
+    public static final String MEIZU_PRO_6S = "90:F0:52:08:B5:82";
+    public static final String GNU = "C4:8E:8F:22:83:CE";
+    public static final String GALAY_S4 = "E4:32:CB:B7:0C:FA";
+    public static final String MI5 = "38:A4:ED:3C:FC:9C";
+    public static final String Raspberry_Pi = "90:F0:52:08:B5:82";
 }

@@ -88,8 +88,20 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.startActivity(intent);
             return true;
         }
-        else if(id == R.id.menu_exit){//退出
+        else if(id == R.id.menu_exit){// 退出
             finish();
+            return true;
+        }
+        else if(id == R.id.menu_main){// 监测界面
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,MapActivity.class);
+            MainActivity.this.startActivity(intent);
+            return true;
+        }
+        else if(id == R.id.menu_home){// 首页
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,MainActivity.class);
+            MainActivity.this.startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

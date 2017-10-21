@@ -107,8 +107,20 @@ public class MapActivity extends AppCompatActivity {
             MapActivity.this.startActivity(intent);
             return true;
         }
-        else if(id == R.id.menu_exit){//退出
+        else if(id == R.id.menu_exit){// 退出
             finish();
+            return true;
+        }
+        else if(id == R.id.menu_main){// 监测界面
+            Intent intent = new Intent();
+            intent.setClass(MapActivity.this,MapActivity.class);
+            MapActivity.this.startActivity(intent);
+            return true;
+        }
+        else if(id == R.id.menu_home){// 首页
+            Intent intent = new Intent();
+            intent.setClass(MapActivity.this,MainActivity.class);
+            MapActivity.this.startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -185,13 +197,10 @@ public class MapActivity extends AppCompatActivity {
         mBaiduMap.setMyLocationEnabled(true);
         // 设置为一般地图
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-
         //  卫星地图
 //        baiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
-
         //空白地图, 基础地图瓦片将不会被渲染。在地图类型中设置为NONE，将不会使用流量下载基础地图瓦片图层。使用场景：与瓦片图层一起使用，节省流量，提升自定义瓦片图下载速度。
 //        baiduMap.setMapType(BaiduMap.MAP_TYPE_NONE);
-
         //设定中心点坐标 西南林业大学坐标
         LatLng cenpt =  new LatLng(25.06056,102.75911);
         //定义地图状态

@@ -2,9 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_about"
+        android:id="@+id/menu_home"
         android:orderInCategory="100"
-        android:title="@string/menu_about"
+        android:title="@string/menu_home"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_main"
+        android:orderInCategory="100"
+        android:title="@string/menu_main"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_bluetooth"
@@ -15,6 +20,11 @@
         android:id="@+id/menu_bluetoothTest"
         android:orderInCategory="100"
         android:title="@string/menu_bluetoothTest"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_about"
+        android:orderInCategory="100"
+        android:title="@string/menu_about"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_exit"

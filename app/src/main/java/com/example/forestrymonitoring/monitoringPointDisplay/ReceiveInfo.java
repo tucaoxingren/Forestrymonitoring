@@ -126,10 +126,10 @@ public class ReceiveInfo {
         PackageMonitoringPoint(info);
         // 根据坐标查找监测点
         MonitoringPoint mo = findMonPoInfo(latLng);
-        double latitude = mo.getLatitude();
-        double longitude = mo.getLongitude();
-        double temperature = mo.getTemperature();
-        double humidity = mo.getHumidity();
+        float latitude = mo.getLatitude();
+        float longitude = mo.getLongitude();
+        float temperature = mo.getTemperature();
+        float humidity = mo.getHumidity();
         String img = mo.getImg();
         String name = mo.getName();
         /*
@@ -142,7 +142,7 @@ public class ReceiveInfo {
         //左上右下
         //textView.setCompoundDrawables(null,null, drawable,null);
         //                           纬度                        经度
-        return name+"\n  纬度 : "+latitude+"\n  经度 : "+longitude+"\n  度 : "+temperature+"        湿度 : "+humidity;
+        return name+"\n  纬度 : "+latitude+"\n  经度 : "+longitude+"\n  温度 : "+temperature+"        湿度 : "+humidity;
     }
 
     /**

@@ -68,8 +68,13 @@
 
         <activity android:name=".MapActivity" />
         <activity android:name=".Offline.OfflineDemo" />
-        <activity android:name=".BluetoothActivity" />
-        <activity android:name=".BlueTestActivity"></activity>
+        <activity android:name=".BluetoothActivity"
+            android:label="@string/bluetoothActivity_name"
+            />
+        <activity android:name=".BlueTestActivity"
+            android:label="@string/blueTestActivity_name"
+            >
+        </activity>
     </application>
 
 </manifest>

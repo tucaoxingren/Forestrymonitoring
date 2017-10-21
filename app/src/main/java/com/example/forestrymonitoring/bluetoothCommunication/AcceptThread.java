@@ -15,6 +15,7 @@ import java.io.IOException;
  */
 
 public class AcceptThread extends Thread {
+
     private final BluetoothServerSocket mmServerSocket;
     private BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
@@ -53,7 +54,8 @@ public class AcceptThread extends Thread {
         }
     }
 
-    /** Will cancel the listening socket, and cause the thread to finish */
+    // Will cancel the listening socket, and cause the thread to finish
+
     public void cancel() {
         try {
             mmServerSocket.close();

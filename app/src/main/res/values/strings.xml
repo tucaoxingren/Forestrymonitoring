@@ -2,6 +2,7 @@
     <string name="app_name">林业监测系统</string>
     <string name="SHA1">87:F9:24:79:90:BE:F9:7A:4B:34:C4:89:89:A2:D0:3E:D7:30:2E:0C</string>
     <string name="packageName">com.example.forestrymonitoring</string>
+    <!-- 菜单文字 -->
     <string name="menu_exit">退出</string>
     <string name="exit">退出</string>
     <string name="menu_about">关于</string>
@@ -14,10 +15,13 @@
     <string name="menu_home">首页</string>
     <string name="device_online">在线</string>
     <string name="device_offline">离线</string>
+    <!-- BlueToothActivity.java蓝牙信息界面文字 -->
     <string name="pair_group_name">已配对蓝牙列表</string>
     <string name="unpair_group_name">未配对蓝牙列表</string>
+    <!-- Activity名字 -->
     <string name="bluetoothActivity_name">蓝牙信息</string>
     <string name="blueTestActivity_name">蓝牙传输测试</string>
+    <!-- 关于 -->
     <string name="aboutText">\n
         项目简介：基于Android Classic Bluetooth的蓝牙智能硬件展示软件，支持一对一实时展示林业监测点位置信息。\n
         项目地址：https://github.com/tucaoxingren/Forestrymonitoring\n
@@ -27,6 +31,9 @@
     </string>
     <string name="offline">下载离线地图</string>
     <string name="mounInfo">监测点信息</string>
-    <string name="homeText">选择查看or退出\n首次使用前请在\n手机蓝牙设置中\n与树莓派配对</string>
+    <!-- MainActivity.java文字 -->
+    <string name="homeText">    本App默认连接树莓派,如需测试蓝牙连接,请在蓝牙信息界面连接其他蓝牙.\n  首次使用前请在手机蓝牙设置中与树莓派配对</string>
+    <string name="viewMoun">查看监测点</string>
+    <string name="bluePare">蓝牙配对</string>
 
 </resources>

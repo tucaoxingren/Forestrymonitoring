@@ -25,7 +25,7 @@ import com.example.forestrymonitoring.Offline.OfflineDemo;
 import com.example.forestrymonitoring.bluetoothCommunication.BluetoothManager;
 import com.example.forestrymonitoring.monitoringPointDisplay.ReceiveInfo;
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends BaseActivity {
 
     private MapView mMapView = null;
     private BaiduMap mBaiduMap = null;
@@ -108,7 +108,8 @@ public class MapActivity extends AppCompatActivity {
             return true;
         }
         else if(id == R.id.menu_exit){// 退出
-            finish();
+//            finish();
+            AtyContainer.getInstance().finishAllActivity();
             return true;
         }
         else if(id == R.id.menu_main){// 监测界面

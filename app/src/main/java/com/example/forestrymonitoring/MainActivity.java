@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.baidu.mapapi.map.MapView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private Button viewButton = null;
     private Button exitButton = null;
@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
         //退出按钮点击事件
         exitButton.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View view){
-                MainActivity.super.finish();
+                //MainActivity.super.finish();
+                AtyContainer.getInstance().finishAllActivity();
             }
         });
         // 蓝牙配对按钮点击事件
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         else if(id == R.id.menu_exit){// 退出
-            finish();
+            AtyContainer.getInstance().finishAllActivity();
             return true;
         }
         else if(id == R.id.menu_main){// 监测界面

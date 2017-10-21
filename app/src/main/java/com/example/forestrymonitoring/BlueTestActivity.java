@@ -27,7 +27,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class BlueTestActivity extends AppCompatActivity {
+public class BlueTestActivity extends BaseActivity {
     //定义组件
     TextView statusLabel;
     Button btnConnect,btnSend,btnQuit;
@@ -397,7 +397,8 @@ public class BlueTestActivity extends AppCompatActivity {
             return true;
         }
         else if(id == R.id.menu_exit){// 退出
-            finish();
+//            finish();
+            AtyContainer.getInstance().finishAllActivity();
             return true;
         }
         else if(id == R.id.menu_main){// 监测界面

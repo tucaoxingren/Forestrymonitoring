@@ -32,7 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class BluetoothActivity extends AppCompatActivity {
+public class BluetoothActivity extends BaseActivity {
 
     // 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
     private static final int REQUEST_CODE_BLUETOOTH_ON = 1313;
@@ -230,7 +230,8 @@ public class BluetoothActivity extends AppCompatActivity {
             return true;
         }
         else if(id == R.id.menu_exit){// 退出
-            finish();
+//            finish();
+            AtyContainer.getInstance().finishAllActivity();
             return true;
         }
         else if(id == R.id.menu_main){// 监测界面

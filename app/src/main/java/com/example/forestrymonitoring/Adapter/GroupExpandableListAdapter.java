@@ -1,6 +1,7 @@
 package com.example.forestrymonitoring.Adapter;
 
 import android.content.Context;
+import android.provider.Settings;
 import android.widget.BaseExpandableListAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +37,7 @@ public class GroupExpandableListAdapter extends BaseExpandableListAdapter {
         mOnGroupExpandedListener = onGroupExpandedListener;
     }
 
+    //        获取分组的个数
     @Override
     public int getGroupCount() {
         if (groupInfoList == null || groupInfoList.size() == 0) {
@@ -44,6 +46,7 @@ public class GroupExpandableListAdapter extends BaseExpandableListAdapter {
         return groupInfoList.size();
     }
 
+    //        获取指定分组中的子选项的个数
     @Override
     public int getChildrenCount(int groupPosition) {
         if (groupInfoList == null || groupInfoList.size() == 0) {
@@ -52,6 +55,7 @@ public class GroupExpandableListAdapter extends BaseExpandableListAdapter {
         return groupInfoList.get(groupPosition).getBlueInfoList().size();
     }
 
+    //        获取指定的分组数据
     @Override
     public Object getGroup(int groupPosition) {
         if (groupInfoList == null || groupInfoList.size() == 0) {
@@ -60,6 +64,7 @@ public class GroupExpandableListAdapter extends BaseExpandableListAdapter {
         return groupInfoList.get(groupPosition);
     }
 
+    //        获取指定分组中的指定子选项数据
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         if (groupInfoList == null || groupInfoList.size() == 0) {
@@ -68,21 +73,25 @@ public class GroupExpandableListAdapter extends BaseExpandableListAdapter {
         return groupInfoList.get(groupPosition).getBlueInfoList().get(childPosition);
     }
 
+    //        获取指定分组的ID, 这个ID必须是唯一的
     @Override
     public long getGroupId(int groupPosition) {
         return groupPosition;
     }
 
+    //        获取子选项的ID, 这个ID必须是唯一的
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
     }
 
+    //        分组和子选项是否持有稳定的ID, 就是说底层数据的改变会不会影响到它们。
     @Override
     public boolean hasStableIds() {
         return true;
     }
 
+    //        获取显示指定分组的视图
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         GroupViewHolder groupViewHolder;
@@ -99,6 +108,7 @@ public class GroupExpandableListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    //        获取显示指定分组中的指定子选项的视图
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         BluetoothHolder bluetoothHolder;
@@ -113,13 +123,17 @@ public class GroupExpandableListAdapter extends BaseExpandableListAdapter {
         } else {
             bluetoothHolder = (BluetoothHolder) convertView.getTag();
         }
-        // 设置蓝牙信息
+        // 设置蓝牙信息展示view
         BlueInfo BlueInfo = groupInfoList.get(groupPosition).getBlueInfoList().get(childPosition);
         bluetoothHolder.nameTv.setText(BlueInfo.getIdentificationName());
         bluetoothHolder.addressTv.setText(BlueInfo.getDeviceAddress());
+        int resId = findImgbyDevice(BlueInfo.getIdentificationName(),BlueInfo.getDeviceAddress());
+        bluetoothHolder.iconIv.setImageResource(resId);
+
         return convertView;
     }
 
+    //        指定位置上的子元素是否可选中
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
@@ -136,6 +150,31 @@ public class GroupExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public void onGroupCollapsed(int groupPosition) {
         Log.d(TAG, "onGroupCollapsed() called with: groupPosition = [" + groupPosition + "]");
+    }
+
+    private int findImgbyDevice(String brand,String Mac){
+//        String brand = android.os.Build.BRAND;
+        String[] temp = brand.split(" ");
+        brand = temp[0];
+        String[] temp2 = Mac.split(":");
+        Mac = temp2[0];
+        int resId = 0;
+        System.out.println(brand);
+        if (brand.equals("XiaoMi"))
+            resId = R.mipmap.xiaomi_mi_453px;
+        else if (brand.equals("MEIZU"))
+            resId = R.mipmap.meizu;
+        else if (brand.equals("GNU"))
+            resId = R.mipmap.acer_512px;
+        else if (brand.equals("SAMSUNG"))
+            resId = R.mipmap.samsung_475px;
+        else if (Mac.equals("E4"))
+            resId = R.mipmap.samsung_475px;
+        else if (Mac.equals("30"))
+            resId = R.mipmap.linux_91px;
+        else if (Mac.equals("FF"))
+            resId = R.mipmap.raspberry_438px;
+        return resId;
     }
 
     private static class GroupViewHolder{

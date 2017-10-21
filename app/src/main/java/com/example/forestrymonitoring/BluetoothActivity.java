@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.ViewDebug;
 import android.widget.ExpandableListView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class BluetoothActivity extends BaseActivity {
     private static final String TAG = "NormalExpandActivity";
     public Context mContext;
     private List<GroupInfo> groupInfoList = new ArrayList<>();
+    private ImageView blueImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +137,7 @@ public class BluetoothActivity extends BaseActivity {
         groupInfo.setBlueInfoList(blueInfoList);
         return groupInfo;
     }
+
 
     /**
      *  未适配蓝牙

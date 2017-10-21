@@ -20,3 +20,20 @@
 已下载离线地图展示
 
 ![已下载离线地图展示](https://github.com/tucaoxingren/Forestrymonitoring/raw/master/Screenshot/device-2017-09-27-210838.png)
+
+展示监测点信息
+
+![展示监测点信息](https://github.com/tucaoxingren/Forestrymonitoring/raw/master/Screenshot/device-2017-10-21-225506.png)
+
+展示已配对的蓝牙列表
+
+![展示已配对的蓝牙列表](https://github.com/tucaoxingren/Forestrymonitoring/raw/master/Screenshot/device-2017-10-21-225539.png)
+
+关于界面
+
+![关于界面](https://github.com/tucaoxingren/Forestrymonitoring/raw/master/Screenshot/device-2017-10-21-225626.png)
+
+主界面
+
+![主界面](https://github.com/tucaoxingren/Forestrymonitoring/raw/master/Screenshot/device-2017-10-21-225703.png)
+

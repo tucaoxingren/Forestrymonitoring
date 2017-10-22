@@ -158,7 +158,7 @@ public class GroupExpandableListAdapter extends BaseExpandableListAdapter {
         brand = temp[0];
         String[] temp2 = Mac.split(":");
         Mac = temp2[0];
-        int resId = 0;
+        int resId;
         System.out.println(brand);
         if (brand.equals("XiaoMi"))
             resId = R.mipmap.xiaomi_mi_453px;
@@ -172,7 +172,7 @@ public class GroupExpandableListAdapter extends BaseExpandableListAdapter {
             resId = R.mipmap.samsung_475px;
         else if (Mac.equals("30"))
             resId = R.mipmap.linux_91px;
-        else if (Mac.equals("FF"))
+        else// if (Mac.equals("FF"))
             resId = R.mipmap.raspberry_438px;
         return resId;
     }

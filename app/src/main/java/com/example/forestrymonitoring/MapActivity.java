@@ -1,5 +1,6 @@
 package com.example.forestrymonitoring;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.model.LatLng;
 import com.example.forestrymonitoring.Offline.OfflineDemo;
 import com.example.forestrymonitoring.bluetoothCommunication.BluetoothManager;
+import com.example.forestrymonitoring.mode.AboutInfo;
 import com.example.forestrymonitoring.monitoringPointDisplay.ReceiveInfo;
 
 public class MapActivity extends BaseActivity {
@@ -34,6 +36,7 @@ public class MapActivity extends BaseActivity {
     private LatLng latLng = null;
     private ReceiveInfo receiveInfo = null;
     private int[] iconId = new int[7];//图标Id
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +94,7 @@ public class MapActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_about) {// 关于
-            displayAboutDialog();
+            AboutInfo.displayAboutDialog(mContext);// 关于
             return true;
         } else if(id == R.id.menu_bluetooth){//蓝牙信息
             //生成一个Intent对象
@@ -126,28 +129,7 @@ public class MapActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    // 绘制关于界面Dialog
-    private void displayAboutDialog() {
-        final int paddingSizeDp = 5;
-        final float scale = getResources().getDisplayMetrics().density;
-        final int dpAsPixels = (int) (paddingSizeDp * scale + 0.5f);
 
-        final TextView textView = new TextView(this);
-        final SpannableString text = new SpannableString(getString(R.string.aboutText));
-
-        textView.setText(text);
-        textView.setAutoLinkMask(RESULT_OK);
-        textView.setMovementMethod(LinkMovementMethod.getInstance());
-        textView.setPadding(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels);
-
-        Linkify.addLinks(text, Linkify.ALL);
-        new AlertDialog.Builder(this)//AlertDialog
-                .setTitle(R.string.menu_about)
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.ok, null)
-                .setView(textView)
-                .show();
-    }
     /**
      * 初始化
      */
@@ -158,6 +140,7 @@ public class MapActivity extends BaseActivity {
         this.initMap();
         //初始化图标id
         this.initIconId();
+        mContext = this;
     }
 
     /**

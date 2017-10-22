@@ -1,20 +1,16 @@
 package com.example.forestrymonitoring;
 
+import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.baidu.mapapi.map.MapView;
+import com.example.forestrymonitoring.mode.AboutInfo;
 
 public class MainActivity extends BaseActivity {
 
@@ -22,17 +18,24 @@ public class MainActivity extends BaseActivity {
     private Button exitButton = null;
     private MapView mMapView = null;
     private Button blueTooth = null;
+    private Context mContext;
+    private Button blueInfo = null;
+    private Button blueTest = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
+
+        mContext = this;
         mMapView = (MapView) findViewById(R.id.bmapView);
 
         //获取按键
         viewButton = (Button)findViewById(R.id.button);
         exitButton = (Button)findViewById(R.id.button2);
         blueTooth = (Button)findViewById(R.id.button4);
+        blueInfo = (Button)findViewById(R.id.button5);
+        blueTest = (Button)findViewById(R.id.button6);
 
         //查看监测点按钮点击事件
         viewButton.setOnClickListener(new Button.OnClickListener(){
@@ -40,8 +43,25 @@ public class MainActivity extends BaseActivity {
                 //setContentView(R.layout.activity_main_map);
                 //生成一个Intent对象
                 Intent intent = new Intent();
-                //intent.putExtra("Element","元素值");//传递参数
                 intent.setClass(MainActivity.this,MapActivity.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
+        // 蓝牙信息 按钮点击事件
+        blueInfo.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View view){
+                //生成一个Intent对象
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,BluetoothActivity.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
+        // 蓝牙测试 点击事件
+        blueTest.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View view){
+                //生成一个Intent对象
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,BlueTestActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -73,7 +93,7 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_about) {// 关于
-            displayAboutDialog();
+            AboutInfo.displayAboutDialog(mContext);// 关于
             return true;
         } else if(id == R.id.menu_bluetooth){//蓝牙信息
             //生成一个Intent对象
@@ -106,28 +126,6 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-    // 绘制关于界面Dialog
-    private void displayAboutDialog() {
-        final int paddingSizeDp = 5;
-        final float scale = getResources().getDisplayMetrics().density;
-        final int dpAsPixels = (int) (paddingSizeDp * scale + 0.5f);
-
-        final TextView textView = new TextView(this);
-        final SpannableString text = new SpannableString(getString(R.string.aboutText));
-
-        textView.setText(text);
-        textView.setAutoLinkMask(RESULT_OK);
-        textView.setMovementMethod(LinkMovementMethod.getInstance());
-        textView.setPadding(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels);
-
-        Linkify.addLinks(text, Linkify.ALL);
-        new AlertDialog.Builder(this)//AlertDialog
-                .setTitle(R.string.menu_about)
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.ok, null)
-                .setView(textView)
-                .show();
     }
 
     @Override

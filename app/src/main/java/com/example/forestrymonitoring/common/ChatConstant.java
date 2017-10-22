@@ -9,23 +9,6 @@ import java.util.UUID;
  */
 public class ChatConstant {
 
-    //Start flag
-    public static final byte VISE_COMMAND_START_FLAG = (byte) 0xFF;
-    //Protocol version
-    public static final byte VISE_COMMAND_PROTOCOL_VERSION = (byte) 0x01;
-
-    /*Send Command Type*/
-    public static final byte VISE_COMMAND_TYPE_NONE = (byte) 0x00;
-    public static final byte VISE_COMMAND_TYPE_TEXT = (byte) 0x01;
-    public static final byte VISE_COMMAND_TYPE_FILE = (byte) 0x02;
-    public static final byte VISE_COMMAND_TYPE_IMAGE = (byte) 0x03;
-    public static final byte VISE_COMMAND_TYPE_AUDIO = (byte) 0x04;
-    public static final byte VISE_COMMAND_TYPE_VIDEO = (byte) 0x05;
-
-    /*KEY*/
-    public static final String NAME_SECURE = "BluetoothChatSecure";
-    public static final String NAME_INSECURE = "BluetoothChatInsecure";
-
     /*UUID*/
     public static final UUID UUID_SECURE = UUID.fromString("5d0b9e95-d5fe-41d2-80af-375b45d2159f");
     public static final UUID UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
@@ -43,4 +26,17 @@ public class ChatConstant {
     public static final String GALAY_S4 = "E4:32:CB:B7:0C:FA";
     public static final String MI5 = "38:A4:ED:3C:FC:9C";
     public static final String Raspberry_Pi = "90:F0:52:08:B5:82";
+
+    /*UUID*/
+    // 蓝牙串口服务
+    public static final UUID SerialPortServiceClass_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    public static final UUID LANAccessUsingPPPServiceClass_UUID = UUID.fromString("00001102-0000-1000-8000-00805F9B34FB");
+    // 拨号网络服务
+    public static final UUID DialupNetworkingServiceClass_UUID = UUID.fromString("00001103-0000-1000-8000-00805F9B34FB");
+    // 信息同步服务
+    public static final UUID IrMCSyncServiceClass_UUID = UUID.fromString("00001104-0000-1000-8000-00805F9B34FB");
+    public static final UUID SDP_OBEXObjectPushServiceClass_UUID = UUID.fromString("00001105-0000-1000-8000-00805F9B34FB");
+    // 文件传输服务
+    public static final UUID OBEXFileTransferServiceClass_UUID = UUID.fromString("00001106-0000-1000-8000-00805F9B34FB");
+    public static final UUID IrMCSyncCommandServiceClass_UUID = UUID.fromString("00001107-0000-1000-8000-00805F9B34FB");
 }

@@ -1,5 +1,6 @@
 package com.example.forestrymonitoring;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,11 +28,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.forestrymonitoring.common.ChatConstant;
+import com.example.forestrymonitoring.mode.AboutInfo;
+
 public class BlueTestActivity extends BaseActivity {
     //定义组件
-    TextView statusLabel;
-    Button btnConnect,btnSend,btnQuit;
-    EditText etReceived,etSend;
+    private TextView statusLabel;
+    private Button btnConnect,btnSend,btnQuit;
+    private EditText etReceived,etSend;
 
     //device var
     private BluetoothAdapter mBluetoothAdapter = null;
@@ -46,13 +50,15 @@ public class BlueTestActivity extends BaseActivity {
     private static final UUID MY_UUID =
             UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
-    private static String address = "C4:8E:8F:22:83:CE"; // <==要连接的目标蓝牙设备MAC地址
+    private static String address = ChatConstant.GALAY_S4; // <==要连接的目标蓝牙设备MAC地址
 
     private ReceiveThread rThread=null;//数据接收线程
 
     //接收到的字符串
-    String ReceiveData="";
-    MyHandler handler;
+    private String ReceiveData="";
+    private MyHandler handler;
+
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +112,6 @@ public class BlueTestActivity extends BaseActivity {
                         e.printStackTrace();
                     }
                 }
-
-
-
             }
         });
 
@@ -131,6 +134,8 @@ public class BlueTestActivity extends BaseActivity {
         btnQuit=(Button)this.findViewById(R.id.button3);
         etSend=(EditText)this.findViewById(R.id.editText1);
         etReceived=(EditText)this.findViewById(R.id.editText2);
+        mContext = this;
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
     public void InitBluetooth()
@@ -145,13 +150,6 @@ public class BlueTestActivity extends BaseActivity {
         }
 
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }*/
 
     //连接蓝牙设备的异步任务
     class ConnectTask extends AsyncTask<String,String,String>
@@ -235,27 +233,20 @@ public class BlueTestActivity extends BaseActivity {
             // TODO Auto-generated method stub
 
             if(btSocket==null)
-            {
                 return "还没有创建连接";
-            }
 
             if(arg0[0].length()>0)//不是空白串
             {
                 //String target=arg0[0];
-
                 byte[] msgBuffer = arg0[0].getBytes();
-
                 try {
                     //  将msgBuffer中的数据写到outStream对象中
                     outStream.write(msgBuffer);
-
                 } catch (IOException e) {
                     Log.e("error", "ON RESUME: Exception during write.", e);
                     return "发送失败";
                 }
-
             }
-
             return "发送成功";
         }
 
@@ -280,13 +271,9 @@ public class BlueTestActivity extends BaseActivity {
                     System.out.println("waitting for instream");
                     inStream.read(buff); //读取数据存储在buff数组中
 //                        System.out.println("buff receive :"+buff.length);
-
-
                     processBuffer(buff,1024);
-
                     //System.out.println("receive content:"+ReceiveData);
                 } catch (IOException e) {
-
                     e.printStackTrace();
                 }
             }
@@ -298,13 +285,9 @@ public class BlueTestActivity extends BaseActivity {
             for(int i=0;i<size;i++)
             {
                 if(buff[i]>'\0')
-                {
                     length++;
-                }
                 else
-                {
                     break;
-                }
             }
 
 //          System.out.println("receive fragment size:"+length);
@@ -322,7 +305,6 @@ public class BlueTestActivity extends BaseActivity {
             Message msg=Message.obtain();
             msg.what=1;
             handler.sendMessage(msg);  //发送消息:系统会自动调用handleMessage( )方法来处理消息
-
         }
 
     }
@@ -380,7 +362,7 @@ public class BlueTestActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_about) {// 关于
-            displayAboutDialog();
+            AboutInfo.displayAboutDialog(mContext);// 关于
             return true;
         } else if(id == R.id.menu_bluetooth){//蓝牙信息
             //生成一个Intent对象
@@ -396,9 +378,8 @@ public class BlueTestActivity extends BaseActivity {
             BlueTestActivity.this.startActivity(intent);
             return true;
         }
-        else if(id == R.id.menu_exit){// 退出
-//            finish();
-            AtyContainer.getInstance().finishAllActivity();
+        else if(id == R.id.menu_exit){
+            AtyContainer.getInstance().finishAllActivity();// 退出
             return true;
         }
         else if(id == R.id.menu_main){// 监测界面
@@ -415,27 +396,4 @@ public class BlueTestActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    // 绘制关于界面Dialog
-    private void displayAboutDialog() {
-        final int paddingSizeDp = 5;
-        final float scale = getResources().getDisplayMetrics().density;
-        final int dpAsPixels = (int) (paddingSizeDp * scale + 0.5f);
-
-        final TextView textView = new TextView(this);
-        final SpannableString text = new SpannableString(getString(R.string.aboutText));
-
-        textView.setText(text);
-        textView.setAutoLinkMask(RESULT_OK);
-        textView.setMovementMethod(LinkMovementMethod.getInstance());
-        textView.setPadding(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels);
-
-        Linkify.addLinks(text, Linkify.ALL);
-        new AlertDialog.Builder(this)//AlertDialog
-                .setTitle(R.string.menu_about)
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.ok, null)
-                .setView(textView)
-                .show();
-    }
-
 }

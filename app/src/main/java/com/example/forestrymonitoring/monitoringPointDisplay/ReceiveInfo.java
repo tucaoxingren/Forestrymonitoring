@@ -1,20 +1,14 @@
 package com.example.forestrymonitoring.monitoringPointDisplay;
 
-import android.bluetooth.BluetoothDevice;
-import android.widget.TextView;
-
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.example.forestrymonitoring.bluetoothCommunication.BluetoothClient;
-import com.example.forestrymonitoring.bluetoothCommunication.BluetoothManager;
-import com.example.forestrymonitoring.bluetoothCommunication.BluetoothServer;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by 吐槽星人 on 2017/10/8 0008.
  * 接收数据并进行封装
@@ -30,16 +24,18 @@ public class ReceiveInfo {
      * @return 信息字符串
      */
     private String  BluetoothReceInfo(){
-        String str = null;
-        return str;
+        //String str = "";
+        return "";
     }
 
     /**
      *  主线程最先调用此方法
      * @param mBaiduMap 百度地图视图
+     * @return List<Marker>
      */
-    public void pullInfo(BaiduMap mBaiduMap,int[] iconId) {//throws IOException
-        String deviceMac = "38:A4:ED:3C:FC:9C";//  MI5
+    public List<MarkerOptions> pullInfo(BaiduMap mBaiduMap,int[] iconId,float alpha) {//throws IOException
+        //String deviceMac = "38:A4:ED:3C:FC:9C";//  MI5
+        List<MarkerOptions> markerOptionsList = new ArrayList<>();
         // 从监听到的蓝牙获取信息
         /*
         // 启动服务端
@@ -56,12 +52,12 @@ public class ReceiveInfo {
         //将受到的信息封装
         PackageMonitoringPoint();
         //返回并展示
-        PackageMonitoringPoint(mBaiduMap,monArray,iconId);
+        markerOptionsList = PackageMonitoringPoint(mBaiduMap,monArray,iconId,alpha);
+        return markerOptionsList;
     }
 
     /**
      * 封装监测点信息在一个list中
-     * @return ArrayList<MonitoringPoint>
      */
     private void PackageMonitoringPoint(){
         MonitoringPoint monitoringPoint1 = new MonitoringPoint(25.04056f,102.73911f,26.5f,75f,ICON_PATH+"a1.png","1号监测点");
@@ -79,19 +75,22 @@ public class ReceiveInfo {
      * @return ArrayList<MonitoringPoint> 监测点
      */
     private ArrayList<MonitoringPoint> PackageMonitoringPoint(String info){
-
         return monArray;
     }
 
     /**
-     *  在地图上添加标记
-     * @param  mBaiduMap
+     * 在地图上添加标记
+     * @param mBaiduMap 地图视图
+     * @param arrayList 标记点封装类 组
+     * @param iconId 图标资源id数组
+     * @return List<Marker>
      */
-    public void PackageMonitoringPoint(BaiduMap mBaiduMap,ArrayList<MonitoringPoint> arrayList,int[] iconId){
+    private List<MarkerOptions> PackageMonitoringPoint(BaiduMap mBaiduMap,ArrayList<MonitoringPoint> arrayList,int[] iconId,float alpha){
 
         LatLng point;
         BitmapDescriptor bitmap;
-        OverlayOptions option;
+        MarkerOptions option;
+        List<MarkerOptions> markerOptionsList = new ArrayList<>();
         int i = 0;
         for (MonitoringPoint monArray : arrayList){
             //定义Maker坐标点
@@ -100,37 +99,52 @@ public class ReceiveInfo {
             bitmap = BitmapDescriptorFactory.fromResource(iconId[i]);
             //构建MarkerOption，用于在地图上添加Marker
             option = new MarkerOptions().position(point).icon(bitmap);
+            // 掉下动画
+            option.animateType(MarkerOptions.MarkerAnimateType.drop);
+            // Marker 透明度
+            option.alpha(alpha);
             //在地图上添加Marker，并显示
             mBaiduMap.addOverlay(option);
-            //
+            markerOptionsList.add(option);
+            // 图标数组下标自增
             i++;
         }
-/*
-        //定义Maker坐标点
-        LatLng point = new LatLng(25.040560,102.739110);
-        //构建Marker图标
-        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.icon_marka);
-        //构建MarkerOption，用于在地图上添加Marker
-        OverlayOptions option = new MarkerOptions().position(point).icon(bitmap);
-        //在地图上添加Marker，并显示
-        mBaiduMap.addOverlay(option);*/
+        return markerOptionsList;
+    }
+
+    /**
+     * 改变已经显示的Marker的透明度
+     * @param mBaiduMap 地图视图
+     * @param markerOptionsList 标记点封装类 组
+     */
+    public static void PackageMonitoringPoint(BaiduMap mBaiduMap,List<MarkerOptions> markerOptionsList){
+        mBaiduMap.clear();
+        for (MarkerOptions markerOptions : markerOptionsList){
+            markerOptions.animateType(MarkerOptions.MarkerAnimateType.none);
+            //在地图上添加Marker，并显示
+            mBaiduMap.addOverlay(markerOptions);
+        }
     }
 
     /**
      *  根据坐标查找对应坐标的监测点信息
-     * @param latLng
-     * @return
+     * @param latLng 要查找的经纬度
+     * @return String 监测点信息
      */
-    public String returnMounInfo(LatLng latLng, TextView textView){
+    public String returnMounInfo(LatLng latLng ){
         String info = BluetoothReceInfo();
         PackageMonitoringPoint(info);
         // 根据坐标查找监测点
-        MonitoringPoint mo = findMonPoInfo(latLng);
-        float latitude = mo.getLatitude();
-        float longitude = mo.getLongitude();
+        MonitoringPoint mo;
+        mo = findMonPoInfo(latLng);
+        if (mo == null){
+            mo = new MonitoringPoint(0f,0f,0f,0f,"","无此坐标");
+        }
+        float latitude = mo.getLatitude();      // 纬度
+        float longitude = mo.getLongitude();// 经度
         float temperature = mo.getTemperature();
         float humidity = mo.getHumidity();
-        String img = mo.getImg();
+        //String img = mo.getImg();
         String name = mo.getName();
         /*
         Drawable drawable = new DrawableContainer();

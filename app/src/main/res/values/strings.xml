@@ -32,8 +32,11 @@
     <string name="offline">下载离线地图</string>
     <string name="mounInfo">监测点信息</string>
     <!-- MainActivity.java文字 -->
-    <string name="homeText">    本App默认连接树莓派,如需测试蓝牙连接,请在蓝牙信息界面连接其他蓝牙.\n  首次使用前请在手机蓝牙设置中与树莓派配对</string>
+    <string name="homeText">&#160; &#160; 本App默认连接树莓派,如需测试蓝牙连接,请在蓝牙信息界面连接其他蓝牙.\n&#160; &#160; 首次使用前请在手机蓝牙设置中与树莓派配对</string>
     <string name="viewMoun">查看监测点</string>
     <string name="bluePare">蓝牙配对</string>
+    <string name="OverlayDemo">演示覆盖物</string>
+
+    <string name="alphaText">&#160; &#160; 滑动选择标记透明度</string>
 
 </resources>

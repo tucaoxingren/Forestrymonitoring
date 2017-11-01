@@ -1,14 +1,11 @@
 package com.example.forestrymonitoring.monitoringPointDisplay;
 
-import com.baidu.mapapi.model.LatLng;
-
 /**
  * Created by 吐槽星人 on 2017/10/8 0008.
  * 封装监测点信息
- * 包括经纬度 温度 湿度 图片路径
+ * 包括经纬度 温度 湿度 图片路径 监测点名字
  */
-
-public class MonitoringPoint {
+class MonitoringPoint {
 
     private float longitude;//经度
     private float latitude;//纬度

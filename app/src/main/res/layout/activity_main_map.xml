@@ -9,15 +9,19 @@
         android:id="@+id/bmapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:clickable="true" />
+        android:clickable="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <Button
         android:id="@+id/refresh"
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:layout_marginBottom="41dp"
+        android:background="@mipmap/refresh_icon"
         android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="20dp"
-        android:background="@mipmap/refresh_icon" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/markInfo"
@@ -35,6 +39,17 @@
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="@android:color/background_dark"
         android:textSize="20sp"
-        tools:ignore="RtlHardcoded" /> <!--android:visibility="gone" -->
+        tools:ignore="RtlHardcoded,UnusedAttribute" />
+
+    <SeekBar
+        android:id="@+id/alphaBar"
+        android:layout_width="208dp"
+        android:layout_height="30dp"
+        android:max="10"
+        android:progress="10"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <!--android:visibility="gone" -->
 
 </RelativeLayout>

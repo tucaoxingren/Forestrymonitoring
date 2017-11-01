@@ -14,10 +14,10 @@
         android:id="@+id/refresh"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="20dp"
-        android:background="@mipmap/refresh_icon" />
+        android:background="@mipmap/refresh_icon"
+        android:layout_marginBottom="11dp"
+        android:layout_above="@+id/alphaBar"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/markInfo"
@@ -35,6 +35,18 @@
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="@android:color/background_dark"
         android:textSize="20sp"
-        tools:ignore="RtlHardcoded" /> <!--android:visibility="gone" -->
+        tools:ignore="RtlHardcoded" />
+
+
+        <SeekBar
+            android:id="@+id/alphaBar"
+            android:layout_width="208dp"
+            android:layout_height="30dp"
+            android:max="10"
+            android:progress="10"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+    <!--android:visibility="gone" -->
 
 </RelativeLayout>

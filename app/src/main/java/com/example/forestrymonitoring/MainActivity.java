@@ -9,14 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.baidu.mapapi.map.MapView;
+import com.example.forestrymonitoring.Offline.OfflineDemo;
 import com.example.forestrymonitoring.mode.AboutInfo;
 
 public class MainActivity extends BaseActivity {
 
     private Button viewButton = null;
     private Button exitButton = null;
-    private MapView mMapView = null;
     private Button blueTooth = null;
     private Context mContext;
     private Button blueInfo = null;
@@ -27,15 +26,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
 
-        mContext = this;
-        mMapView = (MapView) findViewById(R.id.bmapView);
-
-        //获取按键
-        viewButton = (Button)findViewById(R.id.button);
-        exitButton = (Button)findViewById(R.id.button2);
-        blueTooth = (Button)findViewById(R.id.button4);
-        blueInfo = (Button)findViewById(R.id.button5);
-        blueTest = (Button)findViewById(R.id.button6);
+        init();//初始化
 
         //查看监测点按钮点击事件
         viewButton.setOnClickListener(new Button.OnClickListener(){
@@ -61,7 +52,8 @@ public class MainActivity extends BaseActivity {
             public void onClick(View view){
                 //生成一个Intent对象
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this,BlueTestActivity.class);
+                //intent.setClass(MainActivity.this,BlueTestActivity.class);
+                intent.setClass(MainActivity.this,OfflineDemo.class);
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -82,6 +74,18 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 初始化
+     */
+    private void init(){
+        mContext = this;
+        //获取按键
+        viewButton = (Button)findViewById(R.id.button);
+        exitButton = (Button)findViewById(R.id.button2);
+        blueTooth = (Button)findViewById(R.id.button4);
+        blueInfo = (Button)findViewById(R.id.button5);
+        blueTest = (Button)findViewById(R.id.button6);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // 使用menu布局文件构建menu

@@ -31,7 +31,7 @@ public class ReceiveInfo {
     /**
      *  主线程最先调用此方法
      * @param mBaiduMap 百度地图视图
-     * @return List<Marker>
+     * @return List<Marker>标记点
      */
     public List<MarkerOptions> pullInfo(BaiduMap mBaiduMap,int[] iconId,float alpha) {//throws IOException
         //String deviceMac = "38:A4:ED:3C:FC:9C";//  MI5
@@ -49,8 +49,9 @@ public class ReceiveInfo {
         */
 
 
-        //将受到的信息封装
-        PackageMonitoringPoint();
+        //将收到的信息封装
+        //PackageMonitoringPoint();
+        transformString();
         //返回并展示
         markerOptionsList = PackageMonitoringPoint(mBaiduMap,monArray,iconId,alpha);
         return markerOptionsList;
@@ -70,12 +71,27 @@ public class ReceiveInfo {
 
     }
 
+    private void transformString(){
+        String str = "25.04056f,102.73911f,26.5f,75f,a1.png,1号监测点";
+        PackageMonitoringPoint(str);
+    }
+
     /**
      * 封装监测点信息在一个list中
-     * @return ArrayList<MonitoringPoint> 监测点
+     * 监测点
      */
-    private ArrayList<MonitoringPoint> PackageMonitoringPoint(String info){
-        return monArray;
+    private void PackageMonitoringPoint(String info){
+        String[] temp = info.split(",");
+        MonitoringPoint monPoint = new MonitoringPoint();
+        for(int i=0;i<temp.length/6;i++){
+            monPoint.setLatitude(Float.parseFloat(temp[i*6+0]));
+            monPoint.setLongitude(Float.parseFloat(temp[i*6+1]));
+            monPoint.setTemperature(Float.parseFloat(temp[i*6+2]));
+            monPoint.setHumidity(Float.parseFloat(temp[i*6+3]));
+            monPoint.setImg(temp[i*6+4]);
+            monPoint.setName(temp[i*6+5]);
+            monArray.add(monPoint);
+        }
     }
 
     /**

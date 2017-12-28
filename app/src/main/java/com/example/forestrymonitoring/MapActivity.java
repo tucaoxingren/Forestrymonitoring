@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,16 +45,23 @@ public class MapActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_map);
+        //强制在主线程中进行网络请求，最好不这样做，后续再改
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
         init();//初始化
 
         //刷新按钮监听事件
         refresh.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
                 // 检测蓝牙开启状态
                 if (!BluetoothManager.isBluetoothEnabled()){// 未开启运行开启代码
                     BluetoothManager.turnOnBluetooth(MapActivity.this);
-                }
+                }*/
                 // 获取SeekBar值 即Marker标记
                 float alpha = ((float) alphaSeekBar.getProgress()) / 10;
                 // 刷新并展示坐标

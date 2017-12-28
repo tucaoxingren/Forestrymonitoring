@@ -5,6 +5,7 @@ import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.example.forestrymonitoring.util.HttpDownloader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,19 @@ public class ReceiveInfo {
     }
 
     /**
+     *  下载文件
+     */
+    private String downloadFile(){
+        HttpDownloader httpDownloader = new HttpDownloader();
+        //192.168.1.107:8080/Forestry/info.txt///127.0.0.1:8080
+        String url = "https://raw.githubusercontent.com/tucaoxingren/Forestrymonitoring/master/pointInfo.txt";
+        //String url = "http://192.168.1.107:8080/HelloWeb/info.txt";
+        //String url = "http://www.zealer.com/";
+        String result = httpDownloader.download(url);
+        System.out.println(result);
+        return result;
+    }
+    /**
      * 封装监测点信息在一个list中
      */
     private void PackageMonitoringPoint(){
@@ -72,7 +86,8 @@ public class ReceiveInfo {
     }
 
     private void transformString(){
-        String str = "25.04056f,102.73911f,26.5f,75f,a1.png,1号监测点";
+        //String str = "25.04056f,102.73911f,26.5f,75f,a1.png,1号监测点,25.08056f,102.77911f,25.5f,94f,a2.png,2号监测点";
+        String str  = downloadFile();
         PackageMonitoringPoint(str);
     }
 
@@ -82,8 +97,9 @@ public class ReceiveInfo {
      */
     private void PackageMonitoringPoint(String info){
         String[] temp = info.split(",");
-        MonitoringPoint monPoint = new MonitoringPoint();
+
         for(int i=0;i<temp.length/6;i++){
+            MonitoringPoint monPoint = new MonitoringPoint();
             monPoint.setLatitude(Float.parseFloat(temp[i*6+0]));
             monPoint.setLongitude(Float.parseFloat(temp[i*6+1]));
             monPoint.setTemperature(Float.parseFloat(temp[i*6+2]));

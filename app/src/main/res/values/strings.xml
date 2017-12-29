@@ -23,7 +23,7 @@
     <string name="blueTestActivity_name">蓝牙传输测试</string>
     <!-- 关于 -->
     <string name="aboutText">\n
-        项目简介：基于Android Classic Bluetooth的蓝牙智能硬件展示软件，支持一对一实时展示林业监测点位置信息。\n
+        项目简介：基于Android的智能硬件展示软件，支持一对一实时展示林业监测点位置信息。\n
         项目地址：https://github.com/tucaoxingren/Forestrymonitoring\n
         作       者：张常浩\n
         指导教师：秦明明\n

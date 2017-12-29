@@ -21,7 +21,6 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.example.forestrymonitoring.bluetoothCommunication.BluetoothManager;
 import com.example.forestrymonitoring.mode.AboutInfo;
 import com.example.forestrymonitoring.monitoringPointDisplay.ReceiveInfo;
 
@@ -57,11 +56,6 @@ public class MapActivity extends BaseActivity {
         refresh.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                // 检测蓝牙开启状态
-                if (!BluetoothManager.isBluetoothEnabled()){// 未开启运行开启代码
-                    BluetoothManager.turnOnBluetooth(MapActivity.this);
-                }*/
                 // 获取SeekBar值 即Marker标记
                 float alpha = ((float) alphaSeekBar.getProgress()) / 10;
                 // 刷新并展示坐标
@@ -229,19 +223,6 @@ public class MapActivity extends BaseActivity {
         int id = item.getItemId();
         if (id == R.id.menu_about) {// 关于
             AboutInfo.displayAboutDialog(mContext);// 关于
-            return true;
-        } else if(id == R.id.menu_bluetooth){//蓝牙信息
-            //生成一个Intent对象
-            Intent intent = new Intent();
-            intent.setClass(MapActivity.this,BluetoothActivity.class);
-            MapActivity.this.startActivity(intent);
-            return true;
-        }
-        else if(id == R.id.menu_bluetoothTest){//蓝牙测试
-            //生成一个Intent对象
-            Intent intent = new Intent();
-            intent.setClass(MapActivity.this,BlueTestActivity.class);
-            MapActivity.this.startActivity(intent);
             return true;
         }
         else if(id == R.id.menu_exit){// 退出

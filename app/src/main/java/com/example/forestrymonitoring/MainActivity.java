@@ -38,16 +38,7 @@ public class MainActivity extends BaseActivity {
                 MainActivity.this.startActivity(intent);
             }
         });
-        // 蓝牙信息 按钮点击事件
-        blueInfo.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View view){
-                //生成一个Intent对象
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this,BluetoothActivity.class);
-                MainActivity.this.startActivity(intent);
-            }
-        });
-        // 蓝牙测试 点击事件
+        // 离线地图 点击事件
         blueTest.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View view){
                 //生成一个Intent对象
@@ -98,19 +89,6 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
         if (id == R.id.menu_about) {// 关于
             AboutInfo.displayAboutDialog(mContext);// 关于
-            return true;
-        } else if(id == R.id.menu_bluetooth){//蓝牙信息
-            //生成一个Intent对象
-            Intent intent = new Intent();
-            intent.setClass(MainActivity.this,BluetoothActivity.class);
-            MainActivity.this.startActivity(intent);
-            return true;
-        }
-        else if(id == R.id.menu_bluetoothTest){//蓝牙测试
-            //生成一个Intent对象
-            Intent intent = new Intent();
-            intent.setClass(MainActivity.this,BlueTestActivity.class);
-            MainActivity.this.startActivity(intent);
             return true;
         }
         else if(id == R.id.menu_exit){// 退出

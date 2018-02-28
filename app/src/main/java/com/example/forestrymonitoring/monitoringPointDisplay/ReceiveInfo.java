@@ -1,12 +1,22 @@
 package com.example.forestrymonitoring.monitoringPointDisplay;
 
+import android.widget.Toast;
+
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.example.forestrymonitoring.util.FTPThread;
+import com.example.forestrymonitoring.util.FTPUtils;
+import com.example.forestrymonitoring.util.FileUtils;
 import com.example.forestrymonitoring.util.HttpDownloader;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +29,7 @@ public class ReceiveInfo {
 
     private ArrayList<MonitoringPoint> monArray = new ArrayList<>();
     private static final String ICON_PATH = "./src/main/res/raw/";
+    private boolean operatingFlag = true;
 
     /**
      *  通过蓝牙接收监测点信息
@@ -34,25 +45,13 @@ public class ReceiveInfo {
      * @param mBaiduMap 百度地图视图
      * @return List<Marker>标记点
      */
-    public List<MarkerOptions> pullInfo(BaiduMap mBaiduMap,int[] iconId,float alpha) {//throws IOException
-        //String deviceMac = "38:A4:ED:3C:FC:9C";//  MI5
-        List<MarkerOptions> markerOptionsList = new ArrayList<>();
-        // 从监听到的蓝牙获取信息
-        /*
-        // 启动服务端
-        BluetoothServer bluetoothServer = new BluetoothServer();
-        bluetoothServer.openServe();
-        // 启动监听
-        BluetoothDevice bluetoothDevice;
-        bluetoothDevice = BluetoothManager.getDevice(deviceMac);
-        BluetoothClient bluetoothClient = new BluetoothClient(bluetoothDevice);
-        bluetoothClient.connetServer();
-        */
-
-
+    public List<MarkerOptions> pullInfo(BaiduMap mBaiduMap,int[] iconId,float alpha) {
+        List<MarkerOptions> markerOptionsList;
         //将收到的信息封装
-        //PackageMonitoringPoint();
-        transformString();
+        boolean flag = transformString();
+        if(!flag){
+            this.operatingFlag = false;
+        }
         //返回并展示
         markerOptionsList = PackageMonitoringPoint(mBaiduMap,monArray,iconId,alpha);
         return markerOptionsList;
@@ -85,29 +84,102 @@ public class ReceiveInfo {
 
     }
 
-    private void transformString(){
+    /**
+     *
+     * @return 获取信息标志，若获取失败，或格式错误返回false
+     */
+    private boolean transformString(){
         //String str = "25.04056f,102.73911f,26.5f,75f,a1.png,1号监测点,25.08056f,102.77911f,25.5f,94f,a2.png,2号监测点";
-        String str  = downloadFile();
-        PackageMonitoringPoint(str);
+        //String str  = downloadFile();
+
+		final String FileName = "pointInfo.txt";
+		FileUtils fileUtils = new FileUtils();
+		final String FilePath = fileUtils.getSDPATH()+"2forestrymonitoring/"+FileName;
+/*
+        FTPThread ftpThread = new FTPThread();
+        new Thread(ftpThread).start();*/
+        /*
+		new Thread(new Runnable(){
+            FTPUtils ftpUtils = null;
+			@Override
+			public void run() {
+                boolean flag = InitFTPServerSetting();
+                if(flag)
+                    System.out.println("connect success");
+                //ftpUtils = FTPUtils.getInstance();
+				ftpUtils.downLoadFile(FilePath,FileName);
+			}
+            public boolean InitFTPServerSetting() {
+                // TODO Auto-generated method stub
+                ftpUtils = FTPUtils.getInstance();
+                //cs3.swfu.edu.cn  20141151062  19951024
+                boolean flag = ftpUtils.initFTPSetting("202.203.132.245", 21, "20141151062", "19951024");
+                return flag;
+            }
+		}).start();*/
+
+		String str = readFileToString(FilePath);
+		str = str.substring(0, str.length()-1);// 去除末尾换行符
+		
+        analysisMonitoringPoint(str);
+        if (str=="" || str==null)
+            return false;
+        return true;
     }
+	
+	/**
+	* 读文件 转化为字符串
+	*/
+	private String readFileToString(String FilePath){
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(FilePath);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+	    //new一个StringBuffer用于字符串拼接
+	    StringBuffer sb = new StringBuffer();
+	    String line = null;
+	    try {
+	        //当输入流内容读取完毕时
+	        while ((line = reader.readLine()) != null) {
+	             sb.append(line + "\n");
+	        }
+	        //关闭流数据 节约内存消耗
+	        fis.close();
+	        reader.close();
+	        
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    return sb.toString();
+	}
 
     /**
-     * 封装监测点信息在一个list中
-     * 监测点
+     *  解析并封装监测点信息在一个list中
+     * @param info 监测点信息
      */
-    private void PackageMonitoringPoint(String info){
+    private String analysisMonitoringPoint(String info){
         String[] temp = info.split(",");
+		if(temp.length%6 != 0)
+			return "数据校验错误：数据总数错误";
 
         for(int i=0;i<temp.length/6;i++){
             MonitoringPoint monPoint = new MonitoringPoint();
-            monPoint.setLatitude(Float.parseFloat(temp[i*6+0]));
-            monPoint.setLongitude(Float.parseFloat(temp[i*6+1]));
-            monPoint.setTemperature(Float.parseFloat(temp[i*6+2]));
-            monPoint.setHumidity(Float.parseFloat(temp[i*6+3]));
+			try{
+				monPoint.setLatitude(Float.parseFloat(temp[i*6+0]));
+				monPoint.setLongitude(Float.parseFloat(temp[i*6+1]));
+				monPoint.setTemperature(Float.parseFloat(temp[i*6+2]));
+				monPoint.setHumidity(Float.parseFloat(temp[i*6+3]));
+			} catch (Exception e) {
+			}
             monPoint.setImg(temp[i*6+4]);
             monPoint.setName(temp[i*6+5]);
             monArray.add(monPoint);
         }
+        return null;
     }
 
     /**
@@ -165,7 +237,7 @@ public class ReceiveInfo {
      */
     public String returnMounInfo(LatLng latLng ){
         String info = BluetoothReceInfo();
-        PackageMonitoringPoint(info);
+        analysisMonitoringPoint(info);
         // 根据坐标查找监测点
         MonitoringPoint mo;
         mo = findMonPoInfo(latLng);
@@ -203,6 +275,14 @@ public class ReceiveInfo {
                 return mo;
         }
         return null;
+    }
+
+    public boolean isOperatingFlag() {
+        return operatingFlag;
+    }
+
+    public void setOperatingFlag(boolean operatingFlag) {
+        this.operatingFlag = operatingFlag;
     }
 
 }

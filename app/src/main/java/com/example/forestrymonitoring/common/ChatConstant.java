@@ -1,5 +1,7 @@
 package com.example.forestrymonitoring.common;
 
+import android.os.Environment;
+
 import java.util.UUID;
 
 /**
@@ -8,6 +10,9 @@ import java.util.UUID;
  * @date: 16/9/18 20:36.
  */
 public class ChatConstant {
+
+    /*应用目录*/
+    public static final String appDirectory = Environment.getExternalStorageDirectory()+"/"+"2forestrymonitoring";
 
     /*UUID*/
     public static final UUID UUID_SECURE = UUID.fromString("5d0b9e95-d5fe-41d2-80af-375b45d2159f");

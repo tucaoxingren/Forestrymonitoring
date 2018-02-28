@@ -7,20 +7,14 @@
     <string name="exit">退出</string>
     <string name="menu_about">关于</string>
     <string name="about">关于</string>
-    <string name="menu_bluetooth">蓝牙信息</string>
-    <string name="bluetooth">蓝牙信息</string>
-    <string name="menu_bluetoothTest">蓝牙测试</string>
-    <string name="bluetoothTest">蓝牙测试</string>
     <string name="menu_main">监测界面</string>
     <string name="menu_home">首页</string>
     <string name="device_online">在线</string>
     <string name="device_offline">离线</string>
-    <!-- BlueToothActivity.java蓝牙信息界面文字 -->
-    <string name="pair_group_name">已配对蓝牙列表</string>
-    <string name="unpair_group_name">未配对蓝牙列表</string>
-    <!-- Activity名字 -->
-    <string name="bluetoothActivity_name">蓝牙信息</string>
-    <string name="blueTestActivity_name">蓝牙传输测试</string>
+    <string name="offlineMap">离线地图</string>
+    <string name="setting">设置</string>
+    <string name="clear">清除缓存</string>
+    <string name="netSetting">网络设置</string>
     <!-- 关于 -->
     <string name="aboutText">\n
         项目简介：基于Android的智能硬件展示软件，支持一对一实时展示林业监测点位置信息。\n
@@ -34,9 +28,7 @@
     <!-- MainActivity.java文字 -->
     <string name="homeText">&#160; &#160; 本App默认连接树莓派,如需测试蓝牙连接,请在蓝牙信息界面连接其他蓝牙.\n&#160; &#160; 首次使用前请在手机蓝牙设置中与树莓派配对</string>
     <string name="viewMoun">查看监测点</string>
-    <string name="bluePare">蓝牙配对</string>
     <string name="OverlayDemo">演示覆盖物</string>
-
     <string name="alphaText">&#160; &#160; 滑动选择标记透明度</string>
 
 </resources>

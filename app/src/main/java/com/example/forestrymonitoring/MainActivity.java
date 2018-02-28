@@ -2,24 +2,29 @@ package com.example.forestrymonitoring;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.provider.Settings;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.forestrymonitoring.Offline.OfflineDemo;
+import com.example.forestrymonitoring.common.ChatConstant;
 import com.example.forestrymonitoring.mode.AboutInfo;
+
+import java.io.File;
 
 public class MainActivity extends BaseActivity {
 
     private Button viewButton = null;
     private Button exitButton = null;
-    private Button blueTooth = null;
+    private Button offlineMap = null;
     private Context mContext;
-    private Button blueInfo = null;
-    private Button blueTest = null;
+    private Button clearCache = null;
+    private Button netSetting = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +44,10 @@ public class MainActivity extends BaseActivity {
             }
         });
         // 离线地图 点击事件
-        blueTest.setOnClickListener(new Button.OnClickListener(){
+        offlineMap.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View view){
                 //生成一个Intent对象
                 Intent intent = new Intent();
-                //intent.setClass(MainActivity.this,BlueTestActivity.class);
                 intent.setClass(MainActivity.this,OfflineDemo.class);
                 MainActivity.this.startActivity(intent);
             }
@@ -55,12 +59,21 @@ public class MainActivity extends BaseActivity {
                 AtyContainer.getInstance().finishAllActivity();
             }
         });
-        // 蓝牙配对按钮点击事件
-        blueTooth.setOnClickListener(new View.OnClickListener() {
+        // 网络设置按钮点击事件
+        netSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 跳转到蓝牙设置界面
-                startActivity(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS));
+                // 跳转到网络设置界面
+                startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+            }
+        });
+        //清除缓存按钮点击事件
+        clearCache.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View view){
+                if(clearCache())
+                    Toast.makeText(mContext,"缓存清除成功",Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(mContext,"缓存清除失败",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -73,9 +86,48 @@ public class MainActivity extends BaseActivity {
         //获取按键
         viewButton = (Button)findViewById(R.id.button);
         exitButton = (Button)findViewById(R.id.button2);
-        blueTooth = (Button)findViewById(R.id.button4);
-        blueInfo = (Button)findViewById(R.id.button5);
-        blueTest = (Button)findViewById(R.id.button6);
+        clearCache = (Button)findViewById(R.id.button4);
+        netSetting = (Button)findViewById(R.id.button5);
+        offlineMap = (Button)findViewById(R.id.button6);
+		//创建应用目录
+		//String fileDirPath = Environment.getExternalStorageDirectory()+"/"+"2forestrymonitoring/";
+		createFile(ChatConstant.appDirectory);
+    }
+	// 创建应用目录 
+	private void createFile(String fileDirPath) {  
+        //String filePath = fileDirPath + "/" + fileName;// 文件路径  
+        try {
+            File dir;// 目录路径
+            dir = new File(fileDirPath);
+            if (!dir.exists()) {// 如果不存在，则创建路径名  
+                System.out.println("要存储的目录不存在");
+                if (dir.mkdirs()) {// 创建该路径名，返回true则表示创建成功  
+                    System.out.println("已经创建文件存储目录");
+                } else {
+                    System.out.println("创建目录失败");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 删除应用目录下的缓存文件
+     */
+    private boolean clearCache() {
+        File appDirectory = new File(ChatConstant.appDirectory);
+        File[] files = appDirectory.listFiles();
+        if(files.length>0) {
+            for (int x = 0; x < files.length; x++) {
+                if (!files[x].isDirectory()) {
+                    files[x].delete();
+                }
+            }
+            return  true;
+        }
+        else
+            return false;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,6 +157,11 @@ public class MainActivity extends BaseActivity {
             Intent intent = new Intent();
             intent.setClass(MainActivity.this,MainActivity.class);
             MainActivity.this.startActivity(intent);
+            return true;
+        }
+        else if(id == R.id.netSetting){// 网络设置
+            // 跳转到网络设置界面
+            startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
             return true;
         }
         return super.onOptionsItemSelected(item);

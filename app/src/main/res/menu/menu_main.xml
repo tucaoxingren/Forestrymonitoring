@@ -12,14 +12,14 @@
         android:title="@string/menu_main"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menu_bluetooth"
+        android:id="@+id/offlineMap"
         android:orderInCategory="100"
-        android:title="@string/menu_bluetooth"
+        android:title="@string/offlineMap"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menu_bluetoothTest"
+        android:id="@+id/netSetting"
         android:orderInCategory="100"
-        android:title="@string/menu_bluetoothTest"
+        android:title="@string/netSetting"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_about"

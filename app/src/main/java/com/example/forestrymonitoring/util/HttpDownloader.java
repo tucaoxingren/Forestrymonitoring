@@ -11,6 +11,7 @@ import java.net.URL;
 
 /**
  * Created by 吐槽星人 on 2017/12/27 0027.
+ *  http网络传输
  */
 
 public class HttpDownloader {
@@ -31,8 +32,8 @@ public class HttpDownloader {
             // 创建一个HTTP连接
             // 适用于 http连接以及有CA证书的https连接
             // 无CA证书的https连接会抛异常（如12306网站）此时需自定义证书（暂时未完成）
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setConnectTimeout(5000);
+            urlConnection = (HttpURLConnection) url.openConnection();//打开连接
+            urlConnection.setConnectTimeout(1000);//设置请求时间不超过1000ms
             urlConnection.setDoInput(true);
             urlConnection.setUseCaches(false);
             urlConnection.connect();
@@ -63,6 +64,7 @@ public class HttpDownloader {
     public int downloadFile(String urlStr,String path,String fileName){
         InputStream inputStream = null;
         try{
+            // 自定义的文件工具类 包含保存文件，获取路径等
             FileUtils fileUtils = new FileUtils();
             if(fileUtils.isFileExist(path+fileName)){
             	return 1;

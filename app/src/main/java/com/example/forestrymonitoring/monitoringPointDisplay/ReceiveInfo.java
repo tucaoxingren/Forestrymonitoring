@@ -32,15 +32,6 @@ public class ReceiveInfo {
     private boolean operatingFlag = true;
 
     /**
-     *  通过蓝牙接收监测点信息
-     * @return 信息字符串
-     */
-    private String  BluetoothReceInfo(){
-        //String str = "";
-        return "";
-    }
-
-    /**
      *  主线程最先调用此方法
      * @param mBaiduMap 百度地图视图
      * @return List<Marker>标记点
@@ -57,19 +48,6 @@ public class ReceiveInfo {
         return markerOptionsList;
     }
 
-    /**
-     *  下载文件
-     */
-    private String downloadFile(){
-        HttpDownloader httpDownloader = new HttpDownloader();
-        //192.168.1.107:8080/Forestry/info.txt///127.0.0.1:8080
-        String url = "https://raw.githubusercontent.com/tucaoxingren/Forestrymonitoring/master/pointInfo.txt";
-        //String url = "http://192.168.1.107:8080/HelloWeb/info.txt";
-        //String url = "http://www.zealer.com/";
-        String result = httpDownloader.download(url);
-        System.out.println(result);
-        return result;
-    }
     /**
      * 封装监测点信息在一个list中
      */
@@ -89,38 +67,13 @@ public class ReceiveInfo {
      * @return 获取信息标志，若获取失败，或格式错误返回false
      */
     private boolean transformString(){
-        //String str = "25.04056f,102.73911f,26.5f,75f,a1.png,1号监测点,25.08056f,102.77911f,25.5f,94f,a2.png,2号监测点";
-        //String str  = downloadFile();
-
-		final String FileName = "pointInfo.txt";
+       	final String FileName = "pointInfo.txt";
 		FileUtils fileUtils = new FileUtils();
 		final String FilePath = fileUtils.getSDPATH()+"2forestrymonitoring/"+FileName;
-/*
-        FTPThread ftpThread = new FTPThread();
-        new Thread(ftpThread).start();*/
-        /*
-		new Thread(new Runnable(){
-            FTPUtils ftpUtils = null;
-			@Override
-			public void run() {
-                boolean flag = InitFTPServerSetting();
-                if(flag)
-                    System.out.println("connect success");
-                //ftpUtils = FTPUtils.getInstance();
-				ftpUtils.downLoadFile(FilePath,FileName);
-			}
-            public boolean InitFTPServerSetting() {
-                // TODO Auto-generated method stub
-                ftpUtils = FTPUtils.getInstance();
-                //cs3.swfu.edu.cn  20141151062  19951024
-                boolean flag = ftpUtils.initFTPSetting("202.203.132.245", 21, "20141151062", "19951024");
-                return flag;
-            }
-		}).start();*/
-
+        // 读取数据文件
 		String str = readFileToString(FilePath);
 		str = str.substring(0, str.length()-1);// 去除末尾换行符
-		
+		// 数据格式校验
         analysisMonitoringPoint(str);
         if (str=="" || str==null)
             return false;
@@ -135,8 +88,8 @@ public class ReceiveInfo {
 		try {
 			fis = new FileInputStream(FilePath);
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			System.out.println("FileNotFoundException");
 		}
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
 	    //new一个StringBuffer用于字符串拼接
@@ -150,7 +103,6 @@ public class ReceiveInfo {
 	        //关闭流数据 节约内存消耗
 	        fis.close();
 	        reader.close();
-	        
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
@@ -236,8 +188,8 @@ public class ReceiveInfo {
      * @return String 监测点信息
      */
     public String returnMounInfo(LatLng latLng ){
-        String info = BluetoothReceInfo();
-        analysisMonitoringPoint(info);
+        //String info = BluetoothReceInfo();
+        //analysisMonitoringPoint(info);
         // 根据坐标查找监测点
         MonitoringPoint mo;
         mo = findMonPoInfo(latLng);

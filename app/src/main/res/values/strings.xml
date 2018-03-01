@@ -14,6 +14,7 @@
     <string name="offlineMap">离线地图</string>
     <string name="setting">设置</string>
     <string name="clear">清除缓存</string>
+    <string name="cancel">取消</string>
     <string name="netSetting">网络设置</string>
     <!-- 关于 -->
     <string name="aboutText">\n
@@ -21,12 +22,21 @@
         项目地址：https://github.com/tucaoxingren/Forestrymonitoring\n
         作       者：张常浩\n
         指导教师：秦明明\n
-        网       站：https://tucaoxingren.github.io/n
+        网       站：https://tucaoxingren.github.io
     </string>
     <string name="offline">下载离线地图</string>
     <string name="mounInfo">监测点信息</string>
     <!-- MainActivity.java文字 -->
-    <string name="homeText">&#160; &#160; 本App默认连接树莓派,如需测试蓝牙连接,请在蓝牙信息界面连接其他蓝牙.\n&#160; &#160; 首次使用前请在手机蓝牙设置中与树莓派配对</string>
+    <!-- &#160; &#160; 空格 -->
+    <string name="homeText">
+        &#160; &#160; 毕业设计题目：基于Android的林业监测位置显示研究\n
+        &#160; &#160; 指  导   教  师：秦明明\n
+        &#160; &#160; 作              者：张常浩\n
+        &#160; &#160; 项  目   简  介：基于Android平台，使用ftp服务作为APP与树莓派通信的载体，树莓派上传监测点信息到指定
+        ftp服务器上，APP从此ftp服务器获取信息，解析并封装为可用信息，在接入百度地图SDK的界面上进行展示。\n
+        &#160; &#160; 本APP涉及到Java多线程编程，ftp访问与传输数据，Android界面设计，Android常用控件的使用，基于第三方SDK（百度地图SDK）
+        的使用与二次开发等技术。
+    </string>
     <string name="viewMoun">查看监测点</string>
     <string name="OverlayDemo">演示覆盖物</string>
     <string name="alphaText">&#160; &#160; 滑动选择标记透明度</string>

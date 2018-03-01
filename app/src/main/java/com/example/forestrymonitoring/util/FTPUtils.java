@@ -15,9 +15,6 @@ import org.apache.commons.net.ftp.FTPReply;
 import android.content.Context;
 import android.os.NetworkOnMainThreadException;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.example.forestrymonitoring.MapActivity;
 
 
 /** 
@@ -132,7 +129,7 @@ public class FTPUtils {
             ftpClient.enterLocalPassiveMode();     
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);  
               
-            //文件上传吧～  
+            //文件上传
             FileInputStream fileInputStream = new FileInputStream(FilePath);  
             ftpClient.storeFile(FileName, fileInputStream);  
               
@@ -154,10 +151,11 @@ public class FTPUtils {
     /** 
      * 下载文件 
      * @param FilePath  要存放的文件的路径 
-     * @param FileName   远程FTP服务器上的那个文件的名字 
+     * @param FileName   远程FTP服务器上的那个文件的名字
+     * @param FileFtpDir    下载文件在ftp服务器上的地址
      * @return   true为成功，false为失败 
      */  
-    public boolean downLoadFile(String FilePath, String FileName,Context mContext) {
+    public boolean downLoadFile(String FilePath, String FileName,String FileFtpDir) {
           
         if (!ftpClient.isConnected())  
         {  
@@ -169,7 +167,7 @@ public class FTPUtils {
            
         try {  
             // 转到指定下载目录  
-            ftpClient.changeWorkingDirectory("/data");  
+            ftpClient.changeWorkingDirectory(FileFtpDir);
               
             // 列出该目录下所有文件  
             FTPFile[] files = ftpClient.listFiles();  
@@ -191,18 +189,15 @@ public class FTPUtils {
                     //关闭流  
                     outputStream.close();  
                 }  
-            }  
-              
+            }
             //退出登陆FTP，关闭ftpCLient的连接  
             ftpClient.logout();  
-            ftpClient.disconnect();  
-              
+            ftpClient.disconnect();
               
         } catch (IOException e) {  
             // TODO Auto-generated catch block  
             e.printStackTrace();
             System.out.println("download fail");
-            Toast.makeText(mContext,"请检查文件读写权限",Toast.LENGTH_SHORT).show();
         }
           
         return true;  

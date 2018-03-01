@@ -1,10 +1,17 @@
 package com.example.forestrymonitoring;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Environment;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.provider.Settings;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,8 +97,9 @@ public class MainActivity extends BaseActivity {
         netSetting = (Button)findViewById(R.id.button5);
         offlineMap = (Button)findViewById(R.id.button6);
 		//创建应用目录
-		//String fileDirPath = Environment.getExternalStorageDirectory()+"/"+"2forestrymonitoring/";
 		createFile(ChatConstant.appDirectory);
+		// 申请文件读写权限
+        applyPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1);
     }
 	// 创建应用目录 
 	private void createFile(String fileDirPath) {  
@@ -110,6 +118,67 @@ public class MainActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // 申请所需权限
+    protected void applyPermission(String permission, int resultCode){
+        if (ContextCompat.checkSelfPermission(this, permission)
+                != PackageManager.PERMISSION_GRANTED) {// 没有权限。
+            Log.i("info", "1,需要申请权限。");
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+                //TODO 用户未拒绝过 该权限 shouldShowRequestPermissionRationale返回false  用户拒绝过一次则一直返回true
+                //TODO   注意小米手机  则一直返回是 false
+                Log.i("info", "3,用户已经拒绝过一次该权限，需要提示用户为什么需要该权限。\n" +
+                        "此时shouldShowRequestPermissionRationale返回：" + ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        permission));
+                //TODO  解释为什么  需要该权限的  对话框
+                showMissingPermissionDialog();
+            } else {
+                // 申请授权。
+                ActivityCompat.requestPermissions(this, new String[]{permission}, resultCode);
+                Log.i("info", "2,用户拒绝过该权限，或者用户从未操作过该权限，开始申请权限。-\n" +
+                        "此时shouldShowRequestPermissionRationale返回：" +
+                        ActivityCompat.shouldShowRequestPermissionRationale(this, permission));
+            }
+        } else {
+            Log.i("info", "7,授权成功");
+        }
+    }
+    /**
+     * 提示用户的 dialog
+     */
+    protected void showMissingPermissionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示");
+        builder.setMessage("当前应用缺少读写手机存储权限\n\n请点击\"设置\"-\"权限\"-打开所需权限。");
+        // 拒绝, 退出应用
+        builder.setNegativeButton(R.string.cancel,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i("info", "8--权限被拒绝,此时不会再回调onRequestPermissionsResult方法");
+                    }
+                });
+        builder.setPositiveButton(R.string.setting,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i("info", "4,需要用户手动设置，开启当前app设置界面");
+                        startAppSettings();
+                    }
+                });
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+    /**
+     * 打开     App设置界面
+     */
+    private void startAppSettings() {
+        Intent intent = new Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
     }
 
     /**
@@ -165,6 +234,10 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults){
+
     }
 
     @Override

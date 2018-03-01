@@ -7,6 +7,7 @@ import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.example.forestrymonitoring.common.ChatConstant;
 import com.example.forestrymonitoring.util.FTPThread;
 import com.example.forestrymonitoring.util.FTPUtils;
 import com.example.forestrymonitoring.util.FileUtils;
@@ -50,6 +51,7 @@ public class ReceiveInfo {
 
     /**
      * 封装监测点信息在一个list中
+     *  测试用
      */
     private void PackageMonitoringPoint(){
         MonitoringPoint monitoringPoint1 = new MonitoringPoint(25.04056f,102.73911f,26.5f,75f,ICON_PATH+"a1.png","1号监测点");
@@ -67,9 +69,7 @@ public class ReceiveInfo {
      * @return 获取信息标志，若获取失败，或格式错误返回false
      */
     private boolean transformString(){
-       	final String FileName = "pointInfo.txt";
-		FileUtils fileUtils = new FileUtils();
-		final String FilePath = fileUtils.getSDPATH()+"2forestrymonitoring/"+FileName;
+		final String FilePath = ChatConstant.datePath;
         // 读取数据文件
 		String str = readFileToString(FilePath);
 		str = str.substring(0, str.length()-1);// 去除末尾换行符
@@ -188,8 +188,7 @@ public class ReceiveInfo {
      * @return String 监测点信息
      */
     public String returnMounInfo(LatLng latLng ){
-        //String info = BluetoothReceInfo();
-        //analysisMonitoringPoint(info);
+        transformString();// 读数据文件获取坐标点信息
         // 根据坐标查找监测点
         MonitoringPoint mo;
         mo = findMonPoInfo(latLng);
@@ -212,7 +211,7 @@ public class ReceiveInfo {
         //左上右下
         //textView.setCompoundDrawables(null,null, drawable,null);
         //                           纬度                        经度
-        return name+"\n  纬度 : "+latitude+"\n  经度 : "+longitude+"\n  温度 : "+temperature+"        湿度 : "+humidity;
+        return name+"\n  纬度 : "+latitude+"N\n  经度 : "+longitude+"E\n  温度 : "+temperature+"℃      湿度 : "+humidity+"%";
     }
 
     /**
@@ -235,6 +234,10 @@ public class ReceiveInfo {
 
     public void setOperatingFlag(boolean operatingFlag) {
         this.operatingFlag = operatingFlag;
+    }
+
+    public ArrayList<MonitoringPoint> getMonArray() {
+        return monArray;
     }
 
 }

@@ -29,6 +29,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     implementation files('libs/commons-net-3.0.1.jar')
+    implementation files('libs/universal-image-loader-1.9.2-with-sources.jar')
 }
 /*
 sourceSets {

@@ -5,7 +5,7 @@ package com.example.forestrymonitoring.monitoringPointDisplay;
  * 封装监测点信息
  * 包括经纬度 温度 湿度 图片路径 监测点名字
  */
-class MonitoringPoint {
+public class MonitoringPoint {
 
     private float longitude;//经度
     private float latitude;//纬度

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,10 +23,12 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.example.forestrymonitoring.common.ChatConstant;
 import com.example.forestrymonitoring.mode.AboutInfo;
 import com.example.forestrymonitoring.monitoringPointDisplay.ReceiveInfo;
 import com.example.forestrymonitoring.util.FTPThread;
 import com.example.forestrymonitoring.util.FTPUtils;
+import com.example.forestrymonitoring.util.FileUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,32 +40,20 @@ public class MapActivity extends BaseActivity {
     private Button refresh = null;
     private TextView textView = null;
     private LatLng latLng = null;
-    private ReceiveInfo receiveInfo = null;
     private int[] iconId = new int[7];//图标Id
     private Context mContext;
     private SeekBar alphaSeekBar = null;
     private List<MarkerOptions> markerOptionsList;
-    //FTP工具类
-    private FTPUtils ftpUtils = null;
+    // 文件工具类
+    private FileUtils fileUtils = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_map);
-        /*
-        //强制在主线程中进行网络请求，最好不这样做，后续再改
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }*/
-        //new Thread(runnable).start();
 
         init();//初始化控件
-		//初始化和FTP服务器交互的类  
-        //InitFTPServerSetting(); 
-//		FTPThread ftpThread = new FTPThread();
-//	    new Thread(ftpThread).start();
-
+		
         //刷新按钮监听事件
         refresh.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -73,30 +64,6 @@ public class MapActivity extends BaseActivity {
                 FTPThread ftpThread = new FTPThread();
                 ftpThread.setParam(mBaiduMap,markerOptionsList,iconId,mContext,alpha);
                 new Thread(ftpThread).start();
-/*
-                // 刷新并展示坐标
-                clearOverlay(mMapView);
-                receiveInfo = new ReceiveInfo();
-                markerOptionsList = receiveInfo.pullInfo(mBaiduMap,iconId,alpha);
-                if(!receiveInfo.isOperatingFlag())
-                {
-                    Toast.makeText(MapActivity.this,"重试",Toast.LENGTH_SHORT).show();
-                    System.out.print("获取坐标失败");
-                }
-*/
-                /*
-                new Thread(new Runnable(){
-                    @Override
-                    public void run() {
-                        receiveInfo = new ReceiveInfo();
-                        markerOptionsList = receiveInfo.pullInfo(mBaiduMap,iconId,alpha);
-                        if(!receiveInfo.isOperatingFlag())
-                        {
-                            Toast.makeText(MapActivity.this,"重试",Toast.LENGTH_SHORT).show();
-                            System.out.print("ceshi ");
-                        }
-                    }
-                }).start();*/
             }
         });
         // Marker(地图标记)点击监听事件
@@ -107,6 +74,7 @@ public class MapActivity extends BaseActivity {
                 // 设置监测点信息文本控件为 可见
                 textView.setVisibility(View.VISIBLE);
                 latLng = marker.getPosition();
+                ReceiveInfo receiveInfo = new ReceiveInfo();
                 String str = receiveInfo.returnMounInfo(latLng);
                 textView.setText("  监测点信息:"+str);
                 return false;
@@ -130,10 +98,18 @@ public class MapActivity extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 float alpha = ((float) seekBar.getProgress()) / 10;
-                for(MarkerOptions markerOptions : markerOptionsList){
-                    markerOptions.alpha(alpha);
+                if(fileUtils.isFileExist(ChatConstant.datePath)){
+                    ReceiveInfo receiveInfo = new ReceiveInfo();
+                    markerOptionsList = receiveInfo.pullInfo(mBaiduMap,iconId,alpha);
+                    for(MarkerOptions markerOptions : markerOptionsList){
+                        markerOptions.alpha(alpha);
+                    }
+                    ReceiveInfo.PackageMonitoringPoint(mBaiduMap,markerOptionsList);
                 }
-                ReceiveInfo.PackageMonitoringPoint(mBaiduMap,markerOptionsList);
+                else{
+                    Log.i("info","数据文件不存在");
+                    Toast.makeText(mContext,"数据文件不存在,请先点击刷新按钮获取数据 ",Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -145,14 +121,6 @@ public class MapActivity extends BaseActivity {
 
             }
         });
-    }
-	
-	public boolean InitFTPServerSetting() {
-        // TODO Auto-generated method stub  
-        ftpUtils = FTPUtils.getInstance();
-        //cs3.swfu.edu.cn  20141151062  19951024
-        boolean flag = ftpUtils.initFTPSetting("202.203.132.245", 21, "20141151062", "19951024");
-        return flag;
     }
 
     /**
@@ -176,6 +144,7 @@ public class MapActivity extends BaseActivity {
         mContext = this;
         alphaSeekBar = (SeekBar) findViewById(R.id.alphaBar);
         markerOptionsList = new ArrayList<>();
+        fileUtils = new FileUtils();
     }
 
     /**

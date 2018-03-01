@@ -1,17 +1,11 @@
 package com.example.forestrymonitoring.monitoringPointDisplay;
 
-import android.widget.Toast;
-
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.example.forestrymonitoring.common.ChatConstant;
-import com.example.forestrymonitoring.util.FTPThread;
-import com.example.forestrymonitoring.util.FTPUtils;
-import com.example.forestrymonitoring.util.FileUtils;
-import com.example.forestrymonitoring.util.HttpDownloader;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -61,7 +55,6 @@ public class ReceiveInfo {
         monArray.add(monitoringPoint1);
         monArray.add(monitoringPoint2);
         monArray.add(monitoringPoint3);
-
     }
 
     /**
@@ -224,6 +217,23 @@ public class ReceiveInfo {
         for (MonitoringPoint mo: monArray) {
             if(mo.getLatitude() == latLng.latitude && mo.getLongitude() == latLng.longitude)
                 return mo;
+        }
+        return null;
+    }
+
+    /**
+     * 根据textView文本信息查找对应图片名
+     * @param str    textView文本
+     * @return 图片名
+     */
+    public String searchImgPath(String str){
+        //String [] strs = str.split(",");
+        String pointName = str.substring(8,13);
+        transformString();
+        for (int i = 0; i < monArray.size(); i++) {
+            String temp = monArray.get(i).getName();
+            if(temp.equals(pointName))
+                return monArray.get(i).getImg();
         }
         return null;
     }

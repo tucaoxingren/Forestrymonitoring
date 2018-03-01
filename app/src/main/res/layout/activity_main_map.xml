@@ -13,7 +13,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true" android:focusable="true" />
     <Button
         android:id="@+id/refresh"
         android:layout_width="70dp"
@@ -49,6 +49,7 @@
         android:progress="10"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
 
     <!--android:visibility="gone" -->
 

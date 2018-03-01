@@ -34,7 +34,7 @@ public class FileUtils {
 	 * @throws IOException 读取异常
 	 */
 	public File creatSDFile(String fileName) throws IOException{
-		File file = new File(SDPATH+fileName);
+		File file = new File(fileName);
 		file.createNewFile();
 		return file;
 	}
@@ -45,7 +45,7 @@ public class FileUtils {
 	 * @return 目录File对象
 	 */
 	public File creatSDDir(String dirName) {
-		File dir = new File(SDPATH+dirName);
+		File dir = new File(dirName);
 		dir.mkdir();
 		return dir;
 	}
@@ -56,7 +56,7 @@ public class FileUtils {
 	 * @return 判断标志 存在：true  不存在：false
 	 */
 	public boolean isFileExist(String fileName) {
-		File file = new File(SDPATH+fileName);
+		File file = new File(fileName);
 		return file.exists();
 	}
 

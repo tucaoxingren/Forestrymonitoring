@@ -11,11 +11,15 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 
 
@@ -41,15 +45,22 @@ public class DragView extends View {
         WIDTH = 150;
         paint = new Paint();
     }
+    public DragView(Context context) {
+        super(context);
+        WIDTH = 150;
+        paint = new Paint();
+    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);//1080 屏幕宽
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);//1692屏幕高-标题栏高度-通知栏高度
         setMeasuredDimension(widthSize, heightSize);
         width = widthSize;
         heigh = heightSize;
-        rect = new Rect(width-WIDTH, heigh/2-WIDTH/2, width, heigh/2+WIDTH/2);//绘制矩形的区域
+        //                          930，771  ， 1080， 921
+        //rect = new Rect(width-WIDTH, heigh/2-WIDTH/2, width, heigh/2+WIDTH/2);//绘制矩形的区域
+        rect = new Rect(0, 1920-heigh, width, heigh);
     }
 
     /**
@@ -149,6 +160,28 @@ public class DragView extends View {
      */
     public void setImageResource(int resId){
         InputStream is = getContext().getResources().openRawResource(resId);
+        Bitmap bmp = BitmapFactory.decodeStream(is);
+        //图片重新裁剪，原图从中心点按显示大小裁剪
+        int bw = bmp.getWidth(), bh = bmp.getHeight();
+        int w = WIDTH, h = WIDTH;
+        if (bw / w >= bh / h) {
+            mBitmap = Bitmap.createBitmap(bmp,(bw-bh)/2,0,w*bh/h,bh);
+        }
+        else {
+            mBitmap = Bitmap.createBitmap(bmp,0,(bh-bw)/2,bw,h*bw/w);
+        }
+        invalidate();
+    }
+
+    public void setImageLocal(String imgPath) {
+        File imgFile = new File(imgPath);
+        InputStream is = null;
+        try{
+            is = new FileInputStream(imgFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Bitmap bmp = BitmapFactory.decodeStream(is);
         //图片重新裁剪，原图从中心点按显示大小裁剪
         int bw = bmp.getWidth(), bh = bmp.getHeight();

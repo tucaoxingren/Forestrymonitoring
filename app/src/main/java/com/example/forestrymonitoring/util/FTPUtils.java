@@ -1,20 +1,19 @@
 package com.example.forestrymonitoring.util;
   
-import java.io.File;  
-import java.io.FileInputStream;  
-import java.io.FileOutputStream;  
-import java.io.IOException;  
-import java.io.OutputStream;  
-import java.net.SocketException;  
-  
-import org.apache.commons.net.ftp.FTP;  
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;  
-import org.apache.commons.net.ftp.FTPReply;
-
-import android.content.Context;
 import android.os.NetworkOnMainThreadException;
 import android.util.Log;
+
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPReply;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.SocketException;
 
 
 /** 
@@ -74,7 +73,7 @@ public class FTPUtils {
               
             //3.看返回的值是不是230，如果是，表示登陆成功  
             reply = ftpClient.getReplyCode();
-            Log.d("debug","success");
+            Log.d("info","connect ftp success");
           
             if (!FTPReply.isPositiveCompletion(reply))  
             {  

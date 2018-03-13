@@ -96,10 +96,10 @@ public class MainActivity extends BaseActivity {
         clearCache = (Button)findViewById(R.id.button4);
         netSetting = (Button)findViewById(R.id.button5);
         offlineMap = (Button)findViewById(R.id.button6);
-		//创建应用目录
-		createFile(ChatConstant.appDirectory);
 		// 申请文件读写权限
         applyPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 1);
+		//创建应用目录
+		createFile(ChatConstant.appDirectory);		
     }
 	// 创建应用目录 
 	private void createFile(String fileDirPath) {  

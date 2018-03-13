@@ -33,6 +33,7 @@ import com.example.forestrymonitoring.view.DragView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,12 +110,15 @@ public class MapActivity extends BaseActivity {
                 ReceiveInfo receiveInfo = new ReceiveInfo();
                 // 搜索图片名
                 String imgPath = receiveInfo.searchImgPath(pointInfo);
-                if(imgPath != null){
+                File imgFile = new File(ChatConstant.appDirectory+"/"+imgPath);
+                if(imgPath != null && imgFile.exists()){
                     // 设置 图片显示控件 为 可见
                     mDragView.setVisibility(View.VISIBLE);
                     // 展示图片
                     mDragView.setImageLocal(ChatConstant.appDirectory+"/"+imgPath);
                 }
+                else
+                    Toast.makeText(mContext,"图片文件不存在，可能是服务器上无此数据点的图片",Toast.LENGTH_SHORT).show();
             }
         });
         // DragView 点击监听事件

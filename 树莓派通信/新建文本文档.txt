@@ -1,0 +1,11 @@
+上 U
+下 D
+左 L
+右 R
+ftp/serial.dat//控制标志
+
+pictureList.txt//图片列表
+
+ftp://39.106.124.208
+用户：naxyftp
+密码：0987

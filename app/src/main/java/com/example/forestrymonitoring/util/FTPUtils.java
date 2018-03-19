@@ -3,6 +3,8 @@ package com.example.forestrymonitoring.util;
 import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 
+import com.example.forestrymonitoring.common.ChatConstant;
+
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -92,7 +94,7 @@ public class FTPUtils {
         catch (SocketException e) {
             // TODO Auto-generated catch block  
             e.printStackTrace();  
-            return false;  
+            return false;
         } catch (IOException e) {  
             // TODO Auto-generated catch block  
             e.printStackTrace();  
@@ -119,8 +121,8 @@ public class FTPUtils {
         try {  
               
             //设置存储路径  
-            ftpClient.makeDirectory("/data");  
-            ftpClient.changeWorkingDirectory("/data");  
+            ftpClient.makeDirectory(ChatConstant.ftpDatePath);
+            ftpClient.changeWorkingDirectory(ChatConstant.ftpDatePath);
               
             //设置上传文件需要的一些基本信息  
             ftpClient.setBufferSize(1024);    

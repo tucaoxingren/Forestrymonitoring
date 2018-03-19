@@ -40,5 +40,14 @@
     <string name="viewMoun">查看监测点</string>
     <string name="OverlayDemo">演示覆盖物</string>
     <string name="alphaText">&#160; &#160; 滑动选择标记透明度</string>
+    <string name="up">向上</string>
+    <string name="down">向下</string>
+    <string name="left">向左</string>
+    <string name="right">向右</string>
+    <string name="space"> </string>
+    <string name="sendCommand"> 发送指令 </string>
+    <string name="selectPoint"> 选择检测点标号 </string>
+    <string name="kong"> nullnull </string>
+    <string name="controlCommand"> 发送指令 </string>
 
 </resources>

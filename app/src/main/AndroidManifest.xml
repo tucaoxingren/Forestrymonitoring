@@ -22,14 +22,13 @@
     <!-- 访问网络，网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- SD卡读取权限，用户写入离线定位数据 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- 创建/删除文件的权限 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <!-- 使用蓝牙权限 <uses-permission android:name="android.permission.BLUETOOTH"  />  -->
-    <!-- 修改蓝牙的设置 <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />  -->
 
-
+    <!-- 使用蓝牙权限 <uses-permission android:name="android.permission.BLUETOOTH"  /> -->
+    <!-- 修改蓝牙的设置 <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> -->
     <application
         android:name=".MApplication"
         android:allowBackup="true"
@@ -68,7 +67,8 @@
 
         <activity android:name=".MapActivity" />
         <activity android:name=".Offline.OfflineDemo" />
-        <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".SendCommandActivity"></activity>
     </application>
 
 </manifest>

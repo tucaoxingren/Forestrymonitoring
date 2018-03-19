@@ -12,8 +12,8 @@ public class NetWorkUtils {
     /**
      * 判断是否有网络连接
      *
-     * @param context
-     * @return
+     * @param context 当前界面的context
+     * @return true：有网络连接<br>false：无网络连接
      */
     public static boolean isNetworkConnected(Context context) {
         if (context != null) {
@@ -30,9 +30,9 @@ public class NetWorkUtils {
     /**
      * 判断WIFI网络是否可用
      *
-     * @param context
-     * @return
-    /
+     * @param context 当前界面的context
+     * @return 有WIFI连接<br>false：无WIFI连接
+    */
     public static boolean isWifiConnected(Context context) {
     if (context != null) {
     // 获取手机所有连接管理对象(包括对wi-fi,net等连接的管理)
@@ -47,8 +47,8 @@ public class NetWorkUtils {
     /**
      * 判断MOBILE网络是否可用
      *
-     * @param context
-     * @return
+     * @param context 当前界面的context
+     * @return 有数据连接<br>false：无数据连接
      */
     public static boolean isMobileConnected(Context context) {
         if (context != null) {

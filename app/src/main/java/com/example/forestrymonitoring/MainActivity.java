@@ -43,7 +43,6 @@ public class MainActivity extends BaseActivity {
         //查看监测点按钮点击事件
         viewButton.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View view){
-                //setContentView(R.layout.activity_main_map);
                 //生成一个Intent对象
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this,MapActivity.class);
@@ -66,12 +65,16 @@ public class MainActivity extends BaseActivity {
                 AtyContainer.getInstance().finishAllActivity();
             }
         });
-        // 网络设置按钮点击事件
+        // 发送控制指令按钮点击事件
         netSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 跳转到网络设置界面
-                startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+                // 跳转到发送控制指令界面
+                //startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+                //生成一个Intent对象
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,SendCommandActivity.class);
+                MainActivity.this.startActivity(intent);
             }
         });
         //清除缓存按钮点击事件
@@ -228,9 +231,12 @@ public class MainActivity extends BaseActivity {
             MainActivity.this.startActivity(intent);
             return true;
         }
-        else if(id == R.id.netSetting){// 网络设置
-            // 跳转到网络设置界面
-            startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+        else if(id == R.id.netSetting){// 发送控制指令
+            // 跳转到发送控制指令界面
+            //startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this,SendCommandActivity.class);
+            MainActivity.this.startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

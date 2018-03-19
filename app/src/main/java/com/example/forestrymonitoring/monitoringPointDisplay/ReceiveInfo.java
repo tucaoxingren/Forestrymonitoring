@@ -107,10 +107,12 @@ public class ReceiveInfo {
      * @param info 监测点信息
      */
     private String analysisMonitoringPoint(String info){
-        String[] temp = info.split(",");
-		if(temp.length%6 != 0)
+        String infos = info.substring(1);
+        String[] temp = infos.split(ChatConstant.huanhangfu);
+		if((temp.length)%6 != 0){
+		    System.out.println("数据校验错误：数据总数错误");
 			return "数据校验错误：数据总数错误";
-
+		}
         for(int i=0;i<temp.length/6;i++){
             MonitoringPoint monPoint = new MonitoringPoint();
 			try{
@@ -119,6 +121,7 @@ public class ReceiveInfo {
 				monPoint.setTemperature(Float.parseFloat(temp[i*6+2]));
 				monPoint.setHumidity(Float.parseFloat(temp[i*6+3]));
 			} catch (Exception e) {
+			    e.printStackTrace();
 			}
             monPoint.setImg(temp[i*6+4]);
             monPoint.setName(temp[i*6+5]);

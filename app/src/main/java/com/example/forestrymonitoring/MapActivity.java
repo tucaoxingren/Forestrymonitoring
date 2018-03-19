@@ -27,7 +27,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.example.forestrymonitoring.common.ChatConstant;
 import com.example.forestrymonitoring.mode.AboutInfo;
 import com.example.forestrymonitoring.monitoringPointDisplay.ReceiveInfo;
-import com.example.forestrymonitoring.util.FTPThread;
+import com.example.forestrymonitoring.util.FTPDownloadThread;
 import com.example.forestrymonitoring.util.FileUtils;
 import com.example.forestrymonitoring.view.DragView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -42,6 +42,7 @@ public class MapActivity extends BaseActivity {
     private MapView mMapView = null;
     private BaiduMap mBaiduMap = null;
     private Button refresh = null;
+    private Button sendCommand = null;
     private TextView textView = null;
     private LatLng latLng = null;
     private int[] iconId = new int[7];//图标Id
@@ -66,9 +67,9 @@ public class MapActivity extends BaseActivity {
                 // 获取SeekBar值 即Marker标记
                 final float alpha = ((float) alphaSeekBar.getProgress()) / 10;
                 // 开启新线程 访问ftp服务器 并下载监测点信息数据文件及图片文件到本地
-                FTPThread ftpThread = new FTPThread();
-                ftpThread.setParam(mBaiduMap,markerOptionsList,iconId,mContext,alpha);
-                new Thread(ftpThread).start();
+                FTPDownloadThread ftpDownloadThread = new FTPDownloadThread();
+                ftpDownloadThread.setParam(mBaiduMap,markerOptionsList,iconId,mContext,alpha);
+                new Thread(ftpDownloadThread).start();
             }
         });
         // Marker(地图标记)点击监听事件
@@ -147,7 +148,6 @@ public class MapActivity extends BaseActivity {
                     Toast.makeText(mContext,"数据文件不存在,请先点击刷新按钮获取数据 ",Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
@@ -155,6 +155,14 @@ public class MapActivity extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+        //发送指令按钮点击事件
+        sendCommand.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View view){
+                Intent intent = new Intent();
+                intent.setClass(MapActivity.this, SendCommandActivity.class);
+                MapActivity.this.startActivity(intent);
             }
         });
     }
@@ -222,6 +230,7 @@ public class MapActivity extends BaseActivity {
         mMapView = (MapView) findViewById(R.id.bmapView);
         // 获取刷新按钮
         refresh = (Button) findViewById(R.id.refresh);
+        sendCommand = (Button) findViewById(R.id.button3);
         // 获取监测点信息文本
         textView = (TextView) findViewById(R.id.markInfo);
         textView.setVisibility(View.GONE);
@@ -306,6 +315,14 @@ public class MapActivity extends BaseActivity {
         else if(id == R.id.menu_home){// 首页
             Intent intent = new Intent();
             intent.setClass(MapActivity.this,MainActivity.class);
+            MapActivity.this.startActivity(intent);
+            return true;
+        }
+        else if(id == R.id.netSetting){// 发送控制指令
+            // 跳转到发送控制指令界面
+            //startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+            Intent intent = new Intent();
+            intent.setClass(MapActivity.this,SendCommandActivity.class);
             MapActivity.this.startActivity(intent);
             return true;
         }

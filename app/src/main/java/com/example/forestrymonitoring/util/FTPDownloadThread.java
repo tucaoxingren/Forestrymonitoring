@@ -17,7 +17,7 @@ import com.example.forestrymonitoring.monitoringPointDisplay.ReceiveInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FTPThread implements Runnable{
+public class FTPDownloadThread implements Runnable{
 
 	//FTP工具类
     private FTPUtils ftpUtils = null;
@@ -33,13 +33,12 @@ public class FTPThread implements Runnable{
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		Looper.prepare();
 		boolean flag = InitFTPServerSetting(); 
 		if(flag)
 			System.out.println("connect success");
-		String FileName = "pointInfo.txt";
-		String FilePath = ChatConstant.appDirectory+"/"+FileName;
+		String FilePath = ChatConstant.appDirectory+ChatConstant.dateName;
+		String imgFilePath = ChatConstant.appDirectory+ChatConstant.imgListName;
 		System.out.println("FilePath:"+FilePath);
 		if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {// 没有权限。
@@ -49,7 +48,18 @@ public class FTPThread implements Runnable{
 		else{
 			System.out.println("start download");
 			if(NetWorkUtils.isNetworkConnected(mContext)) {
-				ftpUtils.downLoadFile(FilePath,FileName,ChatConstant.ftpDatePath);
+				// 下载数据文件
+				if(ftpUtils.downLoadFile(FilePath,ChatConstant.dateName,ChatConstant.ftpDatePath))
+					Log.d("FTPDownload",ChatConstant.dateName+"  download success");
+				else
+					Log.d("FTPDownload",ChatConstant.dateName+"  download fail");
+				// 下载图片列表文件
+				if(ftpUtils.downLoadFile(imgFilePath,ChatConstant.imgListName,ChatConstant.ftpDatePath))
+					Log.d("FTPDownload",ChatConstant.imgListName+"  download success");
+				else
+					Log.d("FTPDownload",ChatConstant.imgListName+"  download fail");
+				// 修改pointInfo文件
+				changePointInfo();
 				// 刷新并展示坐标
 				RefreshInterface();
 
@@ -61,7 +71,7 @@ public class FTPThread implements Runnable{
 					images[i] = monArray.get(i).getImg();
 				}
 				for (int i = 0; i < images.length; i++) {
-					String imagePath = ChatConstant.appDirectory+"/"+images[i];
+					String imagePath = ChatConstant.appDirectory+images[i];
 					ftpUtils.downLoadFile(imagePath,images[i],ChatConstant.ftpImagePath);
 				}
 			}
@@ -74,14 +84,53 @@ public class FTPThread implements Runnable{
 	}
 
 	/**
+	 * 改变pointInfo中的图片名
+	 */
+	private void changePointInfo(){
+		// 读 图片列表文件
+		String imgList = FileUtils.readFileToString(ChatConstant.imgListPath);
+		// 读 数据文件
+		String dateFile = FileUtils.readFileToString(ChatConstant.datePath);
+		// 将字符串切割成字符串数组
+		String [] imgListArray = imgList.split(ChatConstant.huanhangfu);
+		String [] dateFileArray = dateFile.split(ChatConstant.douhao);
+		int dateLength = 0;
+		if(dateFileArray.length%6!=0)
+			dateLength = dateFileArray.length-1;
+		else
+			dateLength = dateFileArray.length;
+//		for (int i = 0;i < dateLength/6;i++){
+//			if(dateLength/6 == (imgListArray.length-1)/2)
+//				dateFileArray[6*i+4] = imgListArray[2*i+1];
+//			else
+//				dateFileArray[6*i+4] = imgListArray[1];
+//		}
+		// 为pointInfo.txt赋值 图片名
+		for (int i = 0; i < dateLength/6; i++) {
+			dateFileArray[6*i+4] = imgListArray[imgListArray.length-1];
+		}
+		StringBuffer stringBuffer = new StringBuffer();
+		// 拼接string数组
+		for (int i = 0; i < dateFileArray.length; i++) {
+			stringBuffer.append(dateFileArray[i]+ChatConstant.huanhangfu);
+		}
+		// 移除3个换行符\n
+		stringBuffer.delete(stringBuffer.length()-3,stringBuffer.length());
+		String changFinishDate = stringBuffer.toString();
+		// 删除pointInfo.txt
+		FileUtils.deleteFile(ChatConstant.datePath);
+		// 重新写入pointInfo.txt
+		FileUtils.wirteFile(ChatConstant.datePath,changFinishDate);
+
+	}
+	/**
 	 * 初始化ftp服务器连接
 	 * @return 连接标记 true：成功	 <br> false：失败
 	 */
 	private boolean InitFTPServerSetting() {
         // TODO Auto-generated method stub  
         ftpUtils = FTPUtils.getInstance();
-        //cs3.swfu.edu.cn  20141151062  19951024
-        boolean flag = ftpUtils.initFTPSetting("202.203.132.245", 21, "20141151062", "19951024");
+        boolean flag = ftpUtils.initFTPSetting(ChatConstant.FTPUrl, ChatConstant.FTPPort, ChatConstant.FTPLogin, ChatConstant.FTPPassword);
         return flag;
     }
 

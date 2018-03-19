@@ -22,6 +22,7 @@ public class BaseActivity extends AppCompatActivity {
         AtyContainer.getInstance().removeActivity(this);
     }
 
+
 }
 
 class AtyContainer {

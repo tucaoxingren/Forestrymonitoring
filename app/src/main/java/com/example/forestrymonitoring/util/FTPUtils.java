@@ -128,8 +128,20 @@ public class FTPUtils {
             ftpClient.setBufferSize(1024);    
             ftpClient.setControlEncoding("UTF-8");   
             ftpClient.enterLocalPassiveMode();     
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);  
-              
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+
+            /* 上传文件时若此文件已存在则先删除再上传 */
+            // 转到指定目录
+            ftpClient.changeWorkingDirectory(ChatConstant.ftpDatePath);
+            // 列出该目录下所有文件
+            FTPFile[] files = ftpClient.listFiles();
+            // 遍历所有文件，找到指定的文件
+            for (FTPFile file : files) {
+                if (file.getName().equals(FileName)) {
+                    ftpClient.deleteFile(ChatConstant.ftpDatePath+file.getName());
+                }
+            }
+
             //文件上传
             FileInputStream fileInputStream = new FileInputStream(FilePath);  
             ftpClient.storeFile(FileName, fileInputStream);  
@@ -164,29 +176,28 @@ public class FTPUtils {
             {  
                 return false;  
             }  
-        }  
-           
-        try {  
+        }
+        try {
+            //设置文件类型为二进制否则可能导致乱码文件无法打开
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+            ftpClient.setFileTransferMode(FTP.BINARY_FILE_TYPE);
             // 转到指定下载目录  
             ftpClient.changeWorkingDirectory(FileFtpDir);
-              
             // 列出该目录下所有文件  
-            FTPFile[] files = ftpClient.listFiles();  
-              
+            FTPFile[] files = ftpClient.listFiles();
+            if(files.length == 0){
+                return false;
+            }
             // 遍历所有文件，找到指定的文件  
             for (FTPFile file : files) {  
                 if (file.getName().equals(FileName)) {  
                     //根据绝对路径初始化文件  
                     File localFile = new File(FilePath);
-                    System.out.println("FilePath:"+FilePath);
-                      
                     // 输出流  
-                    OutputStream outputStream = new FileOutputStream(localFile);  
-                      
+                    OutputStream outputStream = new FileOutputStream(localFile);
                     // 下载文件  
                     ftpClient.retrieveFile(file.getName(), outputStream);
                     System.out.println("download success");
-                      
                     //关闭流  
                     outputStream.close();  
                 }  
@@ -198,7 +209,8 @@ public class FTPUtils {
         } catch (IOException e) {  
             // TODO Auto-generated catch block  
             e.printStackTrace();
-            System.out.println("download fail");
+            Log.d("FTPDownload",ChatConstant.dateName+"  download fail");
+            return false;
         }
           
         return true;  

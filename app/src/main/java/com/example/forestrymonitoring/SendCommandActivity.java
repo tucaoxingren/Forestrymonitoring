@@ -45,14 +45,14 @@ public class SendCommandActivity extends BaseActivity {
                     switch (flag){
                         case 1: Toast.makeText(mContext,"已选择向上转动，即将发送指令",Toast.LENGTH_SHORT).show();break;
                         case 2: Toast.makeText(mContext,"已选择向下转动，即将发送指令",Toast.LENGTH_SHORT).show();break;
-                        case 3: Toast.makeText(mContext,"已选择向左转动，即将发送指令",Toast.LENGTH_SHORT).show();break;
-                        case 4: Toast.makeText(mContext,"已选择向右转动，即将发送指令",Toast.LENGTH_SHORT).show();break;
+                        case 3: Toast.makeText(mContext,"已选择向右转动，即将发送指令",Toast.LENGTH_SHORT).show();break;
+                        case 4: Toast.makeText(mContext,"已选择向左转动，即将发送指令",Toast.LENGTH_SHORT).show();break;
                         default: System.out.println("未知错误"); break;
                     }
                     // 写入控制指令至machineSerial.dat
 //                    InputStream inputStream   =   new ByteArrayInputStream(controlCommand.getBytes());
 //                    FileUtils.write2SDFromInput(ChatConstant.commandFilePath,inputStream);
-                    FileUtils.wirteFile(ChatConstant.commandFilePath,controlCommand);
+                    FileUtils.wirteTimeToFile(ChatConstant.commandFilePath,controlCommand);
                     // 开启新线程 访问ftp服务器 上传控制指令machineSerial.txt文件至FTP服务器
                     FTPUploadThread ftpUploadThread = new FTPUploadThread();
                     ftpUploadThread.setParam(mContext);
@@ -67,6 +67,7 @@ public class SendCommandActivity extends BaseActivity {
             public void onClick(View view){
                 flag = ChatConstant.up;
                 controlCommand = "U";
+                Toast.makeText(mContext,"已选择向上转动",Toast.LENGTH_SHORT).show();
             }
         });
         //向下按钮点击事件
@@ -74,6 +75,7 @@ public class SendCommandActivity extends BaseActivity {
             public void onClick(View view){
                 flag = ChatConstant.down;
                 controlCommand = "D";
+                Toast.makeText(mContext,"已选择向下转动",Toast.LENGTH_SHORT).show();
             }
         });
         //向左按钮点击事件
@@ -81,6 +83,7 @@ public class SendCommandActivity extends BaseActivity {
             public void onClick(View view){
                 flag = ChatConstant.left;
                 controlCommand = "L";
+                Toast.makeText(mContext,"已选择向左转动",Toast.LENGTH_SHORT).show();
             }
         });
         //向右按钮点击事件
@@ -88,6 +91,7 @@ public class SendCommandActivity extends BaseActivity {
             public void onClick(View view){
                 flag = ChatConstant.right;
                 controlCommand = "R";
+                Toast.makeText(mContext,"已选择向右转动",Toast.LENGTH_SHORT).show();
             }
         });
         //下拉框选择监听

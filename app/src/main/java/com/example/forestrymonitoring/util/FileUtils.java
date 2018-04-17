@@ -2,8 +2,6 @@ package com.example.forestrymonitoring.util;
 
 import android.os.Environment;
 
-import com.example.forestrymonitoring.common.ChatConstant;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.Calendar;
 
 /**
  * @author 吐槽星人
@@ -151,12 +150,12 @@ public class FileUtils {
 	 */
 	public static void wirteFile(String filePath,String str){
 		try { // 防止文件建立或读取失败，用catch捕捉错误并打印，也可以throw
-
+			String strs = str;
             /* 写入Txt文件 */
 			File writename = new File(filePath); // 相对路径，如果没有则要建立一个新的txt文件
 			writename.createNewFile(); // 创建新文件
 			BufferedWriter out = new BufferedWriter(new FileWriter(writename));
-			out.write(str); // 写文件
+			out.write(strs); // 写文件
 			out.flush(); // 把缓存区内容压入文件
 			out.close(); // 最后记得关闭文件
 
@@ -165,4 +164,66 @@ public class FileUtils {
 		}
 	}
 
+	/**
+	 * 将指定时间字符串写入文件
+	 * @param str 要写入的字符串
+	 * @param filePath 要写入的文件路径
+	 */
+	public static void wirteTimeToFile(String filePath,String str){
+		try { // 防止文件建立或读取失败，用catch捕捉错误并打印，也可以throw
+			String strs = getSysytemTime()+str;
+            /* 写入Txt文件 */
+			File writename = new File(filePath); // 相对路径，如果没有则要建立一个新的txt文件
+			writename.createNewFile(); // 创建新文件
+			BufferedWriter out = new BufferedWriter(new FileWriter(writename));
+			out.write(strs); // 写文件
+			out.flush(); // 把缓存区内容压入文件
+			out.close(); // 最后记得关闭文件
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static String getSysytemTime(){
+		Calendar calendar = Calendar.getInstance();
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH);
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		int minute = calendar.get(Calendar.MINUTE);
+		int second = calendar.get(Calendar.SECOND);
+		String yearStr;
+		String monthStr;
+		String hourStr;
+		String dayStr;
+		String minuteStr;
+		String secondStr;
+		if(year<10)
+			yearStr = "0"+Integer.toString(year);
+		else
+			yearStr = Integer.toString(year);
+		if(month<10)
+			monthStr = "0"+Integer.toString(month);
+		else
+			monthStr = Integer.toString(month);
+		if(day<10)
+			dayStr = "0"+Integer.toString(day);
+		else
+			dayStr = Integer.toString(day);
+		if(hour<10)
+			hourStr = "0"+Integer.toString(hour);
+		else
+			hourStr = Integer.toString(hour);
+		if(minute<10)
+			minuteStr = "0"+Integer.toString(minute);
+		else
+			minuteStr = Integer.toString(minute);
+		if(second<10)
+			secondStr = "0"+Integer.toString(second);
+		else
+			secondStr = Integer.toString(second);
+		String str = yearStr+monthStr+dayStr+hourStr+":"+minuteStr+":"+secondStr+"\r\n";
+		return str;
+	}
 }

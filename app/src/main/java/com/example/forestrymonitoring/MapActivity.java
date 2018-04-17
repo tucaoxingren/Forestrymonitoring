@@ -29,6 +29,7 @@ import com.example.forestrymonitoring.mode.AboutInfo;
 import com.example.forestrymonitoring.monitoringPointDisplay.ReceiveInfo;
 import com.example.forestrymonitoring.util.FTPDownloadThread;
 import com.example.forestrymonitoring.util.FileUtils;
+import com.example.forestrymonitoring.util.PlayingThread;
 import com.example.forestrymonitoring.view.DragView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -43,6 +44,7 @@ public class MapActivity extends BaseActivity {
     private BaiduMap mBaiduMap = null;
     private Button refresh = null;
     private Button sendCommand = null;
+    private Button playing = null;
     private TextView textView = null;
     private LatLng latLng = null;
     private int[] iconId = new int[7];//图标Id
@@ -116,7 +118,11 @@ public class MapActivity extends BaseActivity {
                     // 设置 图片显示控件 为 可见
                     mDragView.setVisibility(View.VISIBLE);
                     // 展示图片
-                    mDragView.setImageLocal(ChatConstant.appDirectory+"/"+imgPath);
+                    try{
+                        mDragView.setImageLocal(ChatConstant.appDirectory+"/"+imgPath);
+                    }catch(NullPointerException e){
+                        e.printStackTrace();
+                    }
                 }
                 else
                     Toast.makeText(mContext,"图片文件不存在，可能是服务器上无此数据点的图片",Toast.LENGTH_SHORT).show();
@@ -163,6 +169,19 @@ public class MapActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.setClass(MapActivity.this, SendCommandActivity.class);
                 MapActivity.this.startActivity(intent);
+            }
+        });
+        //播放按钮点击事件
+        playing.setOnClickListener(new Button.OnClickListener(){
+            public void onClick(View view){
+                if(  new File(ChatConstant.appDirectory+"music.wav").exists() ){
+                    // 开启新线程 播放wav文件
+                    PlayingThread playingThread = new PlayingThread();
+                    new Thread(playingThread).start();
+                }
+                else{
+                    Toast.makeText(mContext,"音频文件不存在,请先点击刷新按钮获取数据 ",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -228,9 +247,9 @@ public class MapActivity extends BaseActivity {
     private void initControls(){
         // 获取地图视图
         mMapView = (MapView) findViewById(R.id.bmapView);
-        // 获取刷新按钮
-        refresh = (Button) findViewById(R.id.refresh);
-        sendCommand = (Button) findViewById(R.id.button3);
+        refresh = (Button) findViewById(R.id.refresh);              // 获取刷新按钮
+        sendCommand = (Button) findViewById(R.id.button3);// 获取发送指令按钮
+        playing = (Button) findViewById(R.id.button7);            // 获取播放按钮
         // 获取监测点信息文本
         textView = (TextView) findViewById(R.id.markInfo);
         textView.setVisibility(View.GONE);

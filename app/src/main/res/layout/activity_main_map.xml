@@ -58,6 +58,14 @@
         android:text="@string/controlCommand"
         android:layout_alignParentBottom="true" />
 
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="81dp"
+        android:text="@string/playing" />
+
 
     <!--android:visibility="gone" -->
 

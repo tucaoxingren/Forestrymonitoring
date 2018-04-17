@@ -26,6 +26,13 @@
         android:layout_marginBottom="11dp"
         android:layout_above="@+id/alphaBar"
         android:layout_centerHorizontal="true" />
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="81dp"
+        android:text="@string/playing" />
 
     <TextView
         android:id="@+id/markInfo"

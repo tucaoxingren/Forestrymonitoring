@@ -49,5 +49,6 @@
     <string name="selectPoint"> 选择检测点标号 </string>
     <string name="kong"> nullnull </string>
     <string name="controlCommand"> 发送指令 </string>
+    <string name="playing"> 播放 </string>
 
 </resources>

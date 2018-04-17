@@ -34,7 +34,7 @@ public class FTPDownloadThread implements Runnable{
 	@Override
 	public void run() {
 		Looper.prepare();
-		boolean flag = InitFTPServerSetting(); 
+		boolean flag = InitFTPServerSetting();
 		if(flag)
 			System.out.println("connect success");
 		String FilePath = ChatConstant.appDirectory+ChatConstant.dateName;
@@ -45,34 +45,46 @@ public class FTPDownloadThread implements Runnable{
             Log.i("info", "1,需要申请权限。");
 			Toast.makeText(mContext,"请检查文件读写权限",Toast.LENGTH_SHORT).show();
 		}
-		else{
+		else {
 			System.out.println("start download");
-			if(NetWorkUtils.isNetworkConnected(mContext)) {
+			if (NetWorkUtils.isNetworkConnected(mContext)) {
 				// 下载数据文件
-				if(ftpUtils.downLoadFile(FilePath,ChatConstant.dateName,ChatConstant.ftpDatePath))
-					Log.d("FTPDownload",ChatConstant.dateName+"  download success");
-				else
-					Log.d("FTPDownload",ChatConstant.dateName+"  download fail");
-				// 下载图片列表文件
-				if(ftpUtils.downLoadFile(imgFilePath,ChatConstant.imgListName,ChatConstant.ftpDatePath))
-					Log.d("FTPDownload",ChatConstant.imgListName+"  download success");
-				else
-					Log.d("FTPDownload",ChatConstant.imgListName+"  download fail");
-				// 修改pointInfo文件
-				changePointInfo();
-				// 刷新并展示坐标
-				RefreshInterface();
-
-				// 下载监测点图片文件
-				// 获取图片名
-				monArray = receiveInfo.getMonArray();
-				String [] images = new String[monArray.size()];
-				for (int i=0;i<monArray.size();i++) {
-					images[i] = monArray.get(i).getImg();
-				}
-				for (int i = 0; i < images.length; i++) {
-					String imagePath = ChatConstant.appDirectory+images[i];
-					ftpUtils.downLoadFile(imagePath,images[i],ChatConstant.ftpImagePath);
+				if (ftpUtils.downLoadFile(FilePath, ChatConstant.dateName, ChatConstant.ftpDatePath)) {
+					Log.d("FTPDownload", ChatConstant.dateName + "  download success");
+					// 下载图片列表文件
+					if (ftpUtils.downLoadFile(imgFilePath, ChatConstant.imgListName, ChatConstant.ftpDatePath)) {
+						Log.d("FTPDownload", ChatConstant.imgListName + "  download success");
+						// 修改pointInfo文件
+						changePointInfo();
+						// 刷新并展示坐标
+						RefreshInterface();
+						// 下载监测点图片文件
+						// 获取图片名
+						monArray = receiveInfo.getMonArray();
+						String[] images = new String[monArray.size()];
+						for (int i = 0; i < monArray.size(); i++) {
+							images[i] = monArray.get(i).getImg();
+						}
+						for (int i = 0; i < images.length; i++) {
+							String imagePath = ChatConstant.appDirectory + images[i];
+							ftpUtils.downLoadFile(imagePath, images[i], ChatConstant.ftpImagePath);
+						}
+						//下载wav文件
+						// 读 pictureList.txt
+						String imgList = FileUtils.readFileToString(ChatConstant.imgListPath);
+						// 将字符串切割成字符串数组
+						String [] imgListArray = imgList.split(ChatConstant.huanhangfu);
+						// pictureList.txt文件倒数第二行为最新的wav文件名
+						String wavName = imgListArray[imgListArray.length-1];
+						// 下载wav文件
+						ftpUtils.downLoadFile(ChatConstant.appDirectory +"music.wav", wavName, ChatConstant.ftpImagePath);
+					} else {
+						Log.d("FTPDownload", ChatConstant.imgListName + "  download fail");
+						Toast.makeText(mContext, "下载数据文件失败，请重试", Toast.LENGTH_SHORT).show();
+					}
+				}else {
+					Log.d("FTPDownload", ChatConstant.dateName + "  download fail");
+					Toast.makeText(mContext, "下载数据文件失败，请重试", Toast.LENGTH_SHORT).show();
 				}
 			}
 			else{
@@ -107,7 +119,8 @@ public class FTPDownloadThread implements Runnable{
 //		}
 		// 为pointInfo.txt赋值 图片名
 		for (int i = 0; i < dateLength/6; i++) {
-			dateFileArray[6*i+4] = imgListArray[imgListArray.length-1];
+			// pictureList.txt文件倒数第二行为最新的img文件名
+			dateFileArray[6*i+4] = imgListArray[imgListArray.length-2];
 		}
 		StringBuffer stringBuffer = new StringBuffer();
 		// 拼接string数组

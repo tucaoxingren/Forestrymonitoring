@@ -65,7 +65,7 @@ public class ReceiveInfo {
 		final String FilePath = ChatConstant.datePath;
         // 读取数据文件
 		String str = readFileToString(FilePath);
-		str = str.substring(0, str.length()-1);// 去除末尾换行符
+		str = str.substring(0, str.length()-1);// 去除末尾换行符 以及头部写文件时写入的时间信息
 		// 数据格式校验
         analysisMonitoringPoint(str);
         if (str=="" || str==null)
